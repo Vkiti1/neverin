@@ -13,7 +13,7 @@ const HomePage: NextPage = () => {
         <Button onClick={user ? logout : login}>
           {user ? 'signOut' : 'signIn'}
         </Button>
-        <Link href='/shop/aisjodgnk'>/shop/aisjodgnk</Link>
+        {user && <Link href={`/shop/${user.uid}`}>odi u shop</Link>}
       </Box>
     </>
   )

@@ -30,14 +30,19 @@ const Shop: NextPage<Props> = ({ shop }) => {
 
 export default Shop
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+interface Params {
+  [key: string]: string
+  id: string
+}
+
+export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
+  params,
+}) => {
   const result = await firebaseInstance
     .firestore()
     .collection('shops')
-    .doc('6ohDiz1prA3nmMxF310m')
+    .doc(params.id)
     .get()
-
-  console.log(result)
 
   const newShop = result.data() as FShop
 
