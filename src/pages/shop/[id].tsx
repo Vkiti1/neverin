@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next'
-import { useAuth } from 'context/auth'
 import firebase from 'firebase'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
+import { AuthButton } from 'components/AuthButton'
 
 interface FShop {
   location: firebase.firestore.GeoPoint
@@ -24,8 +24,12 @@ interface Props {
 }
 
 const Shop: NextPage<Props> = ({ shop }) => {
-  const { user } = useAuth()
-  return <div>{user ? shop.name : 'odjebi'}</div>
+  return (
+    <>
+      <AuthButton />
+      {shop.name}
+    </>
+  )
 }
 
 export default Shop

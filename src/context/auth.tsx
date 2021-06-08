@@ -1,9 +1,8 @@
 import { createContext, FC, useContext, useState, useEffect } from 'react'
 import { useFirebase } from 'context/firebase-instance'
 import firebase from 'firebase'
-
 interface AuthContext {
-  login: () => Promise<void>
+  login: (email: string, password: string) => Promise<firebase.User>
   logout: () => Promise<void>
   user: firebase.User
 }
@@ -15,11 +14,12 @@ export const AuthProvider: FC = ({ children }) => {
 
   const firebaseInstance = useFirebase()
 
-  const login = async () => {
+  const login = async (email: string, password: string) => {
     try {
-      await firebaseInstance
+      const newUser = await firebaseInstance
         .auth()
-        .signInWithEmailAndPassword('test@test.com', 'test1234')
+        .signInWithEmailAndPassword(email, password)
+      return newUser.user
     } catch (err) {
       console.error(err)
     }
