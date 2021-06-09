@@ -2,6 +2,7 @@ import { GetServerSideProps, NextPage } from 'next'
 import firebase from 'firebase'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { AuthButton } from 'components/AuthButton'
+import { AdminMenu } from 'components/AdminMenu'
 
 interface FShop {
   location: firebase.firestore.GeoPoint
@@ -12,6 +13,7 @@ interface FShop {
 }
 
 interface IShop {
+  id: string
   location: { lat: number; long: number }
   name: string
   numberOfTables: number
@@ -26,8 +28,7 @@ interface Props {
 const Shop: NextPage<Props> = ({ shop }) => {
   return (
     <>
-      <AuthButton />
-      {shop.name}
+      <AdminMenu id={shop.id} />
     </>
   )
 }
@@ -42,17 +43,18 @@ interface Params {
 export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
   params,
 }) => {
-  const result = await firebaseInstance
+  const shopQueryResult = await firebaseInstance
     .firestore()
     .collection('shops')
     .doc(params.id)
     .get()
 
-  const newShop = result.data() as FShop
+  const newShop = shopQueryResult.data() as FShop
 
   return {
     props: {
       shop: {
+        id: params.id,
         ...newShop,
         location: {
           lat: newShop.location.latitude,
