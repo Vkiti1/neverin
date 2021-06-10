@@ -1,8 +1,10 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, MouseEventHandler, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { useLocale } from 'context/locale'
-import { Box } from '@chakra-ui/layout'
-
+import { Box, Flex } from '@chakra-ui/layout'
+import { IconButton } from '@chakra-ui/button'
+import { EditIcon } from '@chakra-ui/icons'
+import { MenuItem } from 'components/MenuItem'
 interface Props {
   id: string
 }
@@ -42,22 +44,34 @@ export const AdminMenu: FC<Props> = ({ id }) => {
     fetchMenu()
   }, [])
 
+  const editMenuItem = async () => {}
+
   return (
     <>
+      <IconButton
+        onClick={editMenuItem}
+        aria-label='Edit menu'
+        icon={<EditIcon />}
+      />
       {menu.map((category) => {
         return (
-          <Box>
+          <Flex direction='column'>
             {category.name}
             {Object.entries(category.translations[locale]).map(
               ([itemName, itemPrice]) => {
                 return (
-                  <Box>
-                    {itemName}: {itemPrice}
-                  </Box>
+                  <>
+                    <MenuItem
+                      setMenu={setMenu}
+                      menu={menu}
+                      itemName={itemName}
+                      itemPrice={itemPrice}
+                    />
+                  </>
                 )
               }
             )}
-          </Box>
+          </Flex>
         )
       })}
     </>
