@@ -1,6 +1,5 @@
 import { FC, MouseEventHandler, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
-import { useLocale } from 'context/locale'
 import { Box, Flex } from '@chakra-ui/layout'
 import { IconButton } from '@chakra-ui/button'
 import { EditIcon } from '@chakra-ui/icons'
@@ -11,16 +10,14 @@ interface Props {
 
 interface Category {
   name: string
-  translations: Translations
+  items: Items
 }
 
-interface Translations {
+interface Items {
   [key: string]: number
 }
 
 export const AdminMenu: FC<Props> = ({ id }) => {
-  const { locale } = useLocale()
-
   const [menu, setMenu] = useState<Category[]>([])
 
   useEffect(() => {
@@ -34,7 +31,7 @@ export const AdminMenu: FC<Props> = ({ id }) => {
       const menuArray: Category[] = menuQueryResult.docs.map((category) => {
         return {
           name: category.id,
-          translations: category.data() as Translations,
+          items: category.data() as Items,
         }
       })
 
@@ -57,20 +54,18 @@ export const AdminMenu: FC<Props> = ({ id }) => {
         return (
           <Flex direction='column'>
             {category.name}
-            {Object.entries(category.translations[locale]).map(
-              ([itemName, itemPrice]) => {
-                return (
-                  <>
-                    <MenuItem
-                      setMenu={setMenu}
-                      menu={menu}
-                      itemName={itemName}
-                      itemPrice={itemPrice}
-                    />
-                  </>
-                )
-              }
-            )}
+            {Object.entries(category.items).map(([itemName, itemPrice]) => {
+              return (
+                <>
+                  <MenuItem
+                    itemName={itemName}
+                    menu={menu}
+                    setMenu={setMenu}
+                    itemPrice={itemPrice}
+                  />
+                </>
+              )
+            })}
           </Flex>
         )
       })}

@@ -1,8 +1,25 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react'
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  Dispatch,
+  FC,
+  MouseEventHandler,
+  SetStateAction,
+  useState,
+} from 'react'
 import { Box } from '@chakra-ui/layout'
 import { Input } from '@chakra-ui/input'
 import { IconButton } from '@chakra-ui/button'
-import { EditIcon, CloseIcon } from '@chakra-ui/icons'
+import { EditIcon, CloseIcon, CheckIcon } from '@chakra-ui/icons'
+import { firebaseInstance } from 'util/firebase-server-side-instance'
+import { useLocale } from 'context/locale'
+import {
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from '@chakra-ui/react'
 
 type Mode = 'read' | 'write'
 
@@ -15,10 +32,10 @@ interface Props {
 
 interface Category {
   name: string
-  translations: Translations
+  items: Items
 }
 
-interface Translations {
+interface Items {
   [key: string]: number
 }
 
@@ -27,29 +44,28 @@ export const MenuItem: FC<Props> = ({ menu, setMenu, itemName, itemPrice }) => {
   const [name, setName] = useState<string>('')
   const [price, setPrice] = useState<number>(null)
 
-  const editMenuItem = async (itemName) => {
-    setMode('write')
-  }
-
-  const onEditCancel = () => {
+  const onEditCancel: MouseEventHandler<HTMLButtonElement> = () => {
+    setName('')
+    setPrice(null)
     setMode('read')
   }
 
-  const nameChange = (e) => {
-    e.preventDefault()
+  const nameChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setName(e.target.value)
-    console.log(name)
   }
 
-  const priceChange = (e) => {
-    e.preventDefault()
-    const isNumber = e.target.value >= '0' && e.target.value <= '9'
-    console.log(isNumber)
-    if (isNumber) {
-      setPrice(e.target.value)
-    } else {
-      alert('Price needs to be a number')
-    }
+  const priceChange: (valueAsString: string, valueAsNumber: number) => void = (
+    _,
+    valueAsNumber
+  ) => {
+    console.log(valueAsNumber)
+    setPrice(valueAsNumber)
+  }
+
+  const onSubmit: MouseEventHandler<HTMLButtonElement> = () => {
+    menu.map((category) => {
+      console.log(Object.entries(category.items))
+    })
   }
 
   return (
@@ -60,9 +76,7 @@ export const MenuItem: FC<Props> = ({ menu, setMenu, itemName, itemPrice }) => {
             {itemName}: {itemPrice}
           </Box>
           <IconButton
-            onClick={() => {
-              editMenuItem(itemName)
-            }}
+            onClick={() => setMode('write')}
             aria-label='Edit menu item'
             icon={<EditIcon />}
           />
@@ -70,7 +84,18 @@ export const MenuItem: FC<Props> = ({ menu, setMenu, itemName, itemPrice }) => {
       ) : (
         <>
           <Input placeholder={itemName} onChange={nameChange} />
-          <Input placeholder={itemPrice.toString()} onChange={priceChange} />
+          <NumberInput onChange={priceChange} min={1}>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+          <IconButton
+            onClick={onSubmit}
+            aria-label='Submit update'
+            icon={<CheckIcon />}
+          />
           <IconButton
             onClick={onEditCancel}
             aria-label='Cancel update'
