@@ -2,7 +2,7 @@ import { ChangeEventHandler, FC, MouseEventHandler, useState } from 'react'
 import { Box } from '@chakra-ui/layout'
 import { Input } from '@chakra-ui/input'
 import { IconButton } from '@chakra-ui/button'
-import { EditIcon, CloseIcon, CheckIcon } from '@chakra-ui/icons'
+import { EditIcon, CloseIcon, CheckIcon, DeleteIcon } from '@chakra-ui/icons'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import {
   NumberInput,
@@ -67,6 +67,29 @@ export const MenuItem: FC<Props> = ({
     setPrice(valueAsNumber)
   }
 
+  const deleteMenuItem: MouseEventHandler<HTMLInputElement> = async () => {
+    const categoryIndex = menu.findIndex(
+      (category) => category.name === categoryName
+    )
+    delete menu[categoryIndex].items[itemName]
+
+    menuUpdate(menu)
+
+    try {
+      await firebaseInstance
+        .firestore()
+        .collection('shops')
+        .doc(id)
+        .collection('menu')
+        .doc(categoryName)
+        .set(menu[categoryIndex].items)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setMode('read')
+    }
+  }
+
   const onSubmit: MouseEventHandler<HTMLButtonElement> = async () => {
     if (name === '' || name == null || name === 'undefined') {
       console.log('item name needs to be defined')
@@ -82,12 +105,10 @@ export const MenuItem: FC<Props> = ({
     )
 
     delete menu[categoryIndex].items[itemName]
-
     menu[categoryIndex].items[name] = price
 
     menuUpdate(menu)
 
-    setMode('read')
     try {
       await firebaseInstance
         .firestore()
@@ -99,6 +120,7 @@ export const MenuItem: FC<Props> = ({
     } catch (err) {
       console.error(err)
     } finally {
+      setMode('read')
     }
   }
 
@@ -113,6 +135,11 @@ export const MenuItem: FC<Props> = ({
             onClick={startEdit}
             aria-label='Edit menu item'
             icon={<EditIcon />}
+          />
+          <IconButton
+            onClick={deleteMenuItem}
+            aria-label='Delete item'
+            icon={<DeleteIcon />}
           />
         </>
       ) : (
