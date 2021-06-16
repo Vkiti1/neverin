@@ -1,12 +1,11 @@
-import { FC, MouseEventHandler, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Box, Flex, Text } from '@chakra-ui/layout'
-import { IconButton } from '@chakra-ui/button'
-import { AddIcon } from '@chakra-ui/icons'
 import { MenuItem } from 'components/MenuItem'
 import { NewItem } from 'components/NewItem'
 import { Select } from '@chakra-ui/react'
-
+import { Receipts } from 'components/Receipts'
+import { AuthButton } from 'components/AuthButton'
 interface Props {
   id: string
 }
@@ -57,6 +56,7 @@ export const AdminMenu: FC<Props> = ({ id }) => {
         {menu.map((category, i) => {
           return (
             <option
+              key={category.name}
               onClick={() => {
                 setCategoryName(category.name)
                 setCategoryIndex(i)
@@ -72,9 +72,8 @@ export const AdminMenu: FC<Props> = ({ id }) => {
         ? Object.entries(menu[categoryIndex].items).map(
             ([itemName, itemPrice]) => {
               return (
-                <Flex direction='column'>
+                <Flex key={itemName} direction='column'>
                   <MenuItem
-                    key={itemName}
                     id={id}
                     categoryName={categoryName}
                     categoryIndex={categoryIndex}
@@ -89,6 +88,8 @@ export const AdminMenu: FC<Props> = ({ id }) => {
           )
         : null}
       <NewItem menuUpdate={menuUpdate} id={id} menu={menu} />
+      <Receipts id={id} />
+      <AuthButton />
     </>
   )
 }
