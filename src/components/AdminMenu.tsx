@@ -1,9 +1,11 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, MouseEventHandler, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
-import { Box, Flex } from '@chakra-ui/layout'
+import { Box, Flex, Text } from '@chakra-ui/layout'
 import { IconButton } from '@chakra-ui/button'
-import { EditIcon } from '@chakra-ui/icons'
+import { AddIcon } from '@chakra-ui/icons'
 import { MenuItem } from 'components/MenuItem'
+import { NewItem } from 'components/NewItem'
+import { Select } from '@chakra-ui/react'
 
 interface Props {
   id: string
@@ -20,10 +22,8 @@ interface Items {
 
 export const AdminMenu: FC<Props> = ({ id }) => {
   const [menu, setMenu] = useState<Category[]>([])
-
-  const menuUpdate = (changedMenu: Category[]) => {
-    setMenu([...changedMenu])
-  }
+  const [categoryName, setCategoryName] = useState<string>('')
+  const [categoryIndex, setCategoryIndex] = useState<number>(0)
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -46,30 +46,49 @@ export const AdminMenu: FC<Props> = ({ id }) => {
     fetchMenu()
   }, [])
 
+  const menuUpdate = (changedMenu: Category[]) => {
+    setMenu([...changedMenu])
+  }
+
   return (
     <>
-      {menu.map((category) => {
-        return (
-          <Flex key={category.name} direction='column'>
-            {category.name}
-            {Object.entries(category.items).map(([itemName, itemPrice]) => {
+      <Text>Menu</Text>
+      <Select placeholder='Select category'>
+        {menu.map((category, i) => {
+          return (
+            <option
+              onClick={() => {
+                setCategoryName(category.name)
+                setCategoryIndex(i)
+              }}
+              value={category.name}
+            >
+              {category.name}
+            </option>
+          )
+        })}
+      </Select>
+      {categoryName !== ''
+        ? Object.entries(menu[categoryIndex].items).map(
+            ([itemName, itemPrice]) => {
               return (
-                <>
+                <Flex direction='column'>
                   <MenuItem
                     key={itemName}
                     id={id}
-                    categoryName={category.name}
+                    categoryName={categoryName}
+                    categoryIndex={categoryIndex}
                     itemName={itemName}
                     menu={menu}
                     menuUpdate={menuUpdate}
                     itemPrice={itemPrice}
                   />
-                </>
+                </Flex>
               )
-            })}
-          </Flex>
-        )
-      })}
+            }
+          )
+        : null}
+      <NewItem menuUpdate={menuUpdate} id={id} menu={menu} />
     </>
   )
 }

@@ -21,6 +21,7 @@ interface Props {
   menuUpdate: (changedMenu: Category[]) => void
   categoryName: string
   id: string
+  categoryIndex: number
 }
 
 interface Category {
@@ -39,6 +40,7 @@ export const MenuItem: FC<Props> = ({
   itemName,
   itemPrice,
   menuUpdate,
+  categoryIndex,
 }) => {
   const [mode, setMode] = useState<Mode>('read')
   const [name, setName] = useState<string>('')
@@ -67,23 +69,22 @@ export const MenuItem: FC<Props> = ({
     setPrice(valueAsNumber)
   }
 
-  const deleteMenuItem: MouseEventHandler<HTMLInputElement> = async () => {
-    const categoryIndex = menu.findIndex(
-      (category) => category.name === categoryName
-    )
-    delete menu[categoryIndex].items[itemName]
-
-    menuUpdate(menu)
-
+  const deleteMenuItem: MouseEventHandler<HTMLButtonElement> = async () => {
     try {
+      const newMenu = menu
+
+      delete newMenu[categoryIndex].items[itemName]
+
+      menuUpdate(newMenu)
       await firebaseInstance
         .firestore()
         .collection('shops')
         .doc(id)
         .collection('menu')
         .doc(categoryName)
-        .set(menu[categoryIndex].items)
+        .set(newMenu[categoryIndex].items)
     } catch (err) {
+      menuUpdate(menu)
       console.error(err)
     } finally {
       setMode('read')
@@ -91,7 +92,7 @@ export const MenuItem: FC<Props> = ({
   }
 
   const onSubmit: MouseEventHandler<HTMLButtonElement> = async () => {
-    if (name === '' || name == null || name === 'undefined') {
+    if (name === '' || name == null || typeof name === 'undefined') {
       console.log('item name needs to be defined')
       return
     }
@@ -100,24 +101,22 @@ export const MenuItem: FC<Props> = ({
       return
     }
 
-    const categoryIndex = menu.findIndex(
-      (category) => category.name === categoryName
-    )
-
-    delete menu[categoryIndex].items[itemName]
-    menu[categoryIndex].items[name] = price
-
-    menuUpdate(menu)
-
     try {
+      const newMenu = menu
+
+      delete newMenu[categoryIndex].items[itemName]
+      newMenu[categoryIndex].items[name] = price
+
+      menuUpdate(newMenu)
       await firebaseInstance
         .firestore()
         .collection('shops')
         .doc(id)
         .collection('menu')
         .doc(categoryName)
-        .set(menu[categoryIndex].items)
+        .set(newMenu[categoryIndex].items)
     } catch (err) {
+      menuUpdate(menu)
       console.error(err)
     } finally {
       setMode('read')
