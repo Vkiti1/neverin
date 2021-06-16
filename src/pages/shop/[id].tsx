@@ -3,6 +3,7 @@ import firebase from 'firebase'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { AuthButton } from 'components/AuthButton'
 import { AdminMenu } from 'components/AdminMenu'
+//import { Receipts } from 'components/Receipts'
 
 interface FShop {
   location: firebase.firestore.GeoPoint
@@ -29,6 +30,8 @@ const Shop: NextPage<Props> = ({ shop }) => {
   return (
     <>
       <AdminMenu id={shop.id} />
+      {/* <Receipts id={shop.id} /> */}
+      <AuthButton />
     </>
   )
 }
