@@ -25,46 +25,30 @@ interface Items {
 export const Receipts: FC<Props> = ({ id }) => {
   const [receipts, setReceipts] = useState<Receipt[]>([])
   useEffect(() => {
-    console.log(id)
-    const fetchReceipts = async () => {
-      try {
-        const receiptArray: Receipt[] = []
-        await firebaseInstance
-          .firestore()
-          .collection('shops')
-          .doc(id)
-          .collection('receipts')
-          .onSnapshot((querySnapshot) => {
-            querySnapshot.docs.forEach((change) => {
-              const changeData = change.data()
-              receiptArray.push({
-                isPaid: changeData.isPaid,
-                timestamp: changeData.timestamp.toDate(),
-                note: changeData.note,
-                total: changeData.total,
-                order: changeData.order,
-                table: changeData.table,
-              })
-            })
-          })
-        setReceipts(receiptArray)
-        console.log(receipts)
-      } catch (err) {
-        console.error(err)
-      } finally {
-      }
-    }
-    fetchReceipts()
+    const unsubscribe = firebaseInstance
+      .firestore()
+      .collection('shops')
+      .doc(id)
+      .collection('receipts')
+      .onSnapshot((querySnapshot) => {
+        const result = querySnapshot.docs.map((change) => {
+          const changeData = change.data()
+          return {
+            isPaid: changeData.isPaid,
+            timestamp: changeData.timestamp.toDate(),
+            note: changeData.note,
+            total: changeData.total,
+            order: changeData.order,
+            table: changeData.table,
+          }
+        })
+        setReceipts(result)
+      })
+    return () => unsubscribe()
   }, [])
 
   return (
-    <Grid
-      templateColumns='repeat(3, 1fr)'
-      autoRows='auto'
-      gap={2}
-      h='200px'
-      w='500px'
-    >
+    <Grid templateColumns='repeat(3, 1fr)' autoRows='auto' gap={2}>
       {receipts.map((receipt) => {
         return (
           <>

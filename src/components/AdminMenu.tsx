@@ -4,7 +4,6 @@ import { Box, Flex, Text } from '@chakra-ui/layout'
 import { MenuItem } from 'components/MenuItem'
 import { NewItem } from 'components/NewItem'
 import { Select } from '@chakra-ui/react'
-import { Receipts } from 'components/Receipts'
 interface Props {
   id: string
 }
@@ -87,7 +86,6 @@ export const AdminMenu: FC<Props> = ({ id }) => {
           )
         : null}
       <NewItem menuUpdate={menuUpdate} id={id} menu={menu} />
-      <Receipts id={id} />
     </>
   )
 }
