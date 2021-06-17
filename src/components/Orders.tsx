@@ -8,7 +8,7 @@ export const Orders: FC = () => {
   const { orders, orderUpdate } = useReceipts()
 
   return (
-    <Grid w='50%' templateColumns='repeat(3, 1fr)' autoRows='auto' gap={2}>
+    <Grid templateColumns='repeat(3, 1fr)' autoRows='auto' gap={2}>
       {orders.map((order) => {
         return (
           <>

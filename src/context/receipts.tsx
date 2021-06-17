@@ -1,14 +1,6 @@
-import {
-  createContext,
-  useContext,
-  FC,
-  ReactNode,
-  useEffect,
-  useState,
-  MouseEventHandler,
-} from 'react'
+import { createContext, useContext, FC, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
-import { FReceipt, FItem, Receipts } from 'types/index'
+import { FReceipt, Receipts } from 'types/index'
 
 interface Props {
   id: string
@@ -35,9 +27,7 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
         .doc(orderId)
         .set(updatedOrders[index])
       updatedOrders[index].id = orderId
-      setReceipts(updatedOrders)
     } catch (err) {
-      setOrders(orders)
       console.error(err)
     }
   }
