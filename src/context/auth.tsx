@@ -10,9 +10,10 @@ interface AuthContext {
 const authContext = createContext<AuthContext>({} as AuthContext)
 
 export const AuthProvider: FC = ({ children }) => {
-  const [user, setUser] = useState<firebase.User>(null)
-
   const firebaseInstance = useFirebase()
+  const [user, setUser] = useState<firebase.User>(
+    firebaseInstance.auth().currentUser
+  )
 
   const login = async (email: string, password: string) => {
     try {

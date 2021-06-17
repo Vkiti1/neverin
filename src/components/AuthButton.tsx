@@ -6,9 +6,10 @@ import { FC } from 'react'
 interface Props {
   email?: string
   password?: string
+  variant?: string
 }
 
-export const AuthButton: FC<Props> = ({ email, password }) => {
+export const AuthButton: FC<Props> = ({ email, password, variant }) => {
   const { login, logout, user } = useAuth()
   const router = useRouter()
 
@@ -22,5 +23,9 @@ export const AuthButton: FC<Props> = ({ email, password }) => {
     }
   }
 
-  return <Button onClick={handler}>{user ? 'Sign out' : 'Sign in'}</Button>
+  return (
+    <Button variant={variant} onClick={handler}>
+      {user ? 'Sign out' : 'Sign in'}
+    </Button>
+  )
 }

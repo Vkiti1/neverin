@@ -3,18 +3,10 @@ import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Flex, Text } from '@chakra-ui/layout'
 import { MenuItem } from 'components/MenuItem'
 import { NewItem } from 'components/NewItem'
-import { Select, Divider } from '@chakra-ui/react'
+import { Select } from '@chakra-ui/react'
+import { Category, Items } from 'types/index'
 interface Props {
   id: string
-}
-
-interface Category {
-  name: string
-  items: Items
-}
-
-interface Items {
-  [key: string]: number
 }
 
 export const AdminMenu: FC<Props> = ({ id }) => {

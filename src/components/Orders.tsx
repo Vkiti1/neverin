@@ -1,12 +1,15 @@
 import { FC } from 'react'
-import { useReceipts } from 'context/receipts'
 import { Grid, GridItem } from '@chakra-ui/react'
+import { useReceipts } from 'context/receipts'
+import { IconButton } from '@chakra-ui/react'
+import { CheckIcon } from '@chakra-ui/icons'
 
-export const Receipts: FC = () => {
-  const { receipts } = useReceipts()
+export const Orders: FC = () => {
+  const { orders, orderUpdate } = useReceipts()
+
   return (
-    <Grid templateColumns='repeat(3, 1fr)' autoRows='auto' gap={2}>
-      {receipts.map((order) => {
+    <Grid w='50%' templateColumns='repeat(3, 1fr)' autoRows='auto' gap={2}>
+      {orders.map((order) => {
         return (
           <>
             <GridItem colSpan={3}>
@@ -30,6 +33,13 @@ export const Receipts: FC = () => {
             </GridItem>
             <GridItem colSpan={3} colStart={2}>
               Total: {order.total}
+            </GridItem>
+            <GridItem colStart={3}>
+              <IconButton
+                aria-label='Is order paid?'
+                onClick={() => orderUpdate(order.id)}
+                icon={<CheckIcon />}
+              ></IconButton>
             </GridItem>
           </>
         )

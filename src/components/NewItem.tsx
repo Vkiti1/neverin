@@ -11,6 +11,7 @@ import {
 import { CloseIcon, CheckIcon, AddIcon } from '@chakra-ui/icons'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Box, Flex } from '@chakra-ui/layout'
+import { Category } from 'types/index'
 
 type Mode = 'read' | 'write'
 
@@ -18,15 +19,6 @@ interface Props {
   menu: Category[]
   menuUpdate: (changedMenu: Category[]) => void
   id: string
-}
-
-interface Category {
-  name: string
-  items: Items
-}
-
-interface Items {
-  [key: string]: number
 }
 
 export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {

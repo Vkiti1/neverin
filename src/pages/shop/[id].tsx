@@ -1,26 +1,10 @@
 import { GetServerSideProps, NextPage } from 'next'
-import firebase from 'firebase'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { AuthButton } from 'components/AuthButton'
 import { Header } from 'components/Header'
-import { Receipts } from 'components/Receipts'
-
-interface FShop {
-  location: firebase.firestore.GeoPoint
-  name: string
-  numberOfTables: number
-  oib: string
-  waiters: string[]
-}
-
-interface IShop {
-  id: string
-  location: { lat: number; long: number }
-  name: string
-  numberOfTables: number
-  oib: string
-  waiters: string[]
-}
+import { Orders } from 'components/Orders'
+import { ReceiptsProvider } from 'context/receipts'
+import { FShop, IShop } from 'types/index'
 
 interface Props {
   shop: IShop
@@ -29,9 +13,10 @@ interface Props {
 const Shop: NextPage<Props> = ({ shop }) => {
   return (
     <>
-      <Header id={shop.id} />
-      <Receipts id={shop.id} />
-      <AuthButton />
+      <ReceiptsProvider id={shop.id}>
+        <Header />
+        <Orders />
+      </ReceiptsProvider>
     </>
   )
 }

@@ -12,6 +12,7 @@ import {
   NumberDecrementStepper,
   Divider,
 } from '@chakra-ui/react'
+import { Category } from 'types/index'
 
 type Mode = 'read' | 'write'
 
@@ -23,15 +24,6 @@ interface Props {
   categoryName: string
   id: string
   categoryIndex: number
-}
-
-interface Category {
-  name: string
-  items: Items
-}
-
-interface Items {
-  [key: string]: number
 }
 
 export const MenuItem: FC<Props> = ({
