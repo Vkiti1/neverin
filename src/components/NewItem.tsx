@@ -6,9 +6,11 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Text,
 } from '@chakra-ui/react'
 import { CloseIcon, CheckIcon, AddIcon } from '@chakra-ui/icons'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
+import { Box, Flex } from '@chakra-ui/layout'
 
 type Mode = 'read' | 'write'
 
@@ -84,7 +86,12 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
     <div>
       {mode === 'write' ? (
         <>
-          <Select isRequired placeholder='Type of drink'>
+          <Select
+            marginTop={2}
+            marginBottom={2}
+            isRequired
+            placeholder='Type of drink'
+          >
             {menu.map((category, i) => {
               return (
                 <option
@@ -96,31 +103,52 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
               )
             })}
           </Select>
-          <Input onChange={nameChange} placeholder='Item name'></Input>
-          <NumberInput onChange={priceChange} placeholder='Item price' min={1}>
+          <Input
+            marginBottom={2}
+            onChange={nameChange}
+            placeholder='Item name'
+          ></Input>
+          <NumberInput
+            marginBottom={2}
+            onChange={priceChange}
+            placeholder='Item price'
+            min={1}
+          >
             <NumberInputField />
             <NumberInputStepper>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-          <IconButton
-            onClick={onItemSubmit}
-            aria-label='Submit'
-            icon={<CheckIcon />}
-          />
-          <IconButton
-            onClick={onItemCancel}
-            aria-label='Cancel'
-            icon={<CloseIcon />}
-          />
+          <Box>
+            <IconButton
+              w='45%'
+              marginLeft={2}
+              marginRight={2}
+              onClick={onItemSubmit}
+              aria-label='Submit'
+              icon={<CheckIcon />}
+            />
+            <IconButton
+              w='45%'
+              marginLeft={1}
+              onClick={onItemCancel}
+              aria-label='Cancel'
+              icon={<CloseIcon />}
+            />
+          </Box>
         </>
       ) : (
-        <IconButton
-          onClick={() => setMode('write')}
-          aria-label='Add new item'
-          icon={<AddIcon />}
-        />
+        <Flex justifyContent='space-between'>
+          <Text fontSize='1.2rem' alignSelf='center'>
+            Add item
+          </Text>
+          <IconButton
+            onClick={() => setMode('write')}
+            aria-label='Add new item'
+            icon={<AddIcon />}
+          />
+        </Flex>
       )}
     </div>
   )

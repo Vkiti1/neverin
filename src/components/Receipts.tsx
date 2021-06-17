@@ -48,9 +48,9 @@ export const Receipts: FC<Props> = ({ id }) => {
   }, [])
 
   return (
-    <Grid templateColumns='repeat(3, 1fr)' autoRows='auto' gap={2}>
+    <Grid w='50%' templateColumns='repeat(3, 1fr)' autoRows='auto' gap={2}>
       {receipts.map((receipt) => {
-        return (
+        return receipt.isPaid === true ? null : (
           <>
             <GridItem colSpan={3}>
               Time: {receipt.timestamp.toLocaleString()}

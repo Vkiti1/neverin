@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
-import { Box, Flex, Text } from '@chakra-ui/layout'
+import { Flex, Text } from '@chakra-ui/layout'
 import { MenuItem } from 'components/MenuItem'
 import { NewItem } from 'components/NewItem'
-import { Select } from '@chakra-ui/react'
+import { Select, Divider } from '@chakra-ui/react'
 interface Props {
   id: string
 }
@@ -49,8 +49,8 @@ export const AdminMenu: FC<Props> = ({ id }) => {
 
   return (
     <>
-      <Text>Menu</Text>
-      <Select placeholder='Select category'>
+      <NewItem menuUpdate={menuUpdate} id={id} menu={menu} />
+      <Select marginTop={8} marginBottom={2} placeholder='Select category'>
         {menu.map((category, i) => {
           return (
             <option
@@ -70,7 +70,7 @@ export const AdminMenu: FC<Props> = ({ id }) => {
         ? Object.entries(menu[categoryIndex].items).map(
             ([itemName, itemPrice]) => {
               return (
-                <Flex key={itemName} direction='column'>
+                <Flex key={itemName} marginBottom={2} direction='column'>
                   <MenuItem
                     id={id}
                     categoryName={categoryName}
@@ -85,7 +85,6 @@ export const AdminMenu: FC<Props> = ({ id }) => {
             }
           )
         : null}
-      <NewItem menuUpdate={menuUpdate} id={id} menu={menu} />
     </>
   )
 }

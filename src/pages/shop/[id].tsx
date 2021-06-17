@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next'
 import firebase from 'firebase'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { AuthButton } from 'components/AuthButton'
-import { AdminMenu } from 'components/AdminMenu'
+import { Header } from 'components/Header'
 import { Receipts } from 'components/Receipts'
 
 interface FShop {
@@ -29,7 +29,7 @@ interface Props {
 const Shop: NextPage<Props> = ({ shop }) => {
   return (
     <>
-      <AdminMenu id={shop.id} />
+      <Header id={shop.id} />
       <Receipts id={shop.id} />
       <AuthButton />
     </>

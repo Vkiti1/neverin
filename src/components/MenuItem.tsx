@@ -10,6 +10,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Divider,
 } from '@chakra-ui/react'
 
 type Mode = 'read' | 'write'
@@ -126,41 +127,61 @@ export const MenuItem: FC<Props> = ({
   return (
     <>
       {mode === 'read' ? (
-        <>
-          <Box>
+        <Box marginBottom={3}>
+          <Box marginBottom={2}>
             {itemName}: {itemPrice}
           </Box>
-          <IconButton
-            onClick={startEdit}
-            aria-label='Edit menu item'
-            icon={<EditIcon />}
-          />
-          <IconButton
-            onClick={deleteMenuItem}
-            aria-label='Delete item'
-            icon={<DeleteIcon />}
-          />
-        </>
+          <Box>
+            <IconButton
+              w='45%'
+              marginLeft={2}
+              marginRight={2}
+              onClick={startEdit}
+              aria-label='Edit menu item'
+              icon={<EditIcon />}
+            />
+            <IconButton
+              w='45%'
+              marginLeft={1}
+              onClick={deleteMenuItem}
+              aria-label='Delete item'
+              icon={<DeleteIcon />}
+            />
+          </Box>
+          <Divider marginTop={2} />
+        </Box>
       ) : (
         <>
-          <Input placeholder={itemName} onChange={nameChange} />
-          <NumberInput onChange={priceChange} min={1}>
-            <NumberInputField />
+          <Input
+            marginBottom={2}
+            placeholder={itemName}
+            onChange={nameChange}
+          />
+          <NumberInput marginBottom={2} onChange={priceChange} min={1}>
+            <NumberInputField placeholder={itemPrice.toString()} />
             <NumberInputStepper>
               <NumberIncrementStepper />
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-          <IconButton
-            onClick={onSubmit}
-            aria-label='Submit update'
-            icon={<CheckIcon />}
-          />
-          <IconButton
-            onClick={onEditCancel}
-            aria-label='Cancel update'
-            icon={<CloseIcon />}
-          />
+          <Box>
+            <IconButton
+              w='45%'
+              marginLeft={2}
+              marginRight={2}
+              onClick={onSubmit}
+              aria-label='Submit update'
+              icon={<CheckIcon />}
+            />
+            <IconButton
+              w='45%'
+              marginLeft={1}
+              onClick={onEditCancel}
+              aria-label='Cancel update'
+              icon={<CloseIcon />}
+            />
+          </Box>
+          <Divider marginTop={2} />
         </>
       )}
     </>
