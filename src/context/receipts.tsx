@@ -12,7 +12,21 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
   const [orders, setOrders] = useState<FReceipt[]>([])
   const [receipts, setReceipts] = useState<FReceipt[]>([])
 
-  const orderUpdate = async (orderId) => {
+  const deleteOrder = async (orderId) => {
+    try {
+      await firebaseInstance
+        .firestore()
+        .collection('shops')
+        .doc(id)
+        .collection('receipts')
+        .doc(orderId)
+        .delete()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const updateOrder = async (orderId) => {
     const updatedOrders = orders
     const index = updatedOrders.findIndex((order) => order.id === orderId)
 
@@ -46,6 +60,7 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
             return {
               id: change.id,
               isPaid: changeData.isPaid,
+              isServed: changeData.isServed,
               timestamp: changeData.timestamp.toDate(),
               note: changeData.note,
               total: changeData.total,
@@ -60,6 +75,7 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
             return {
               id: change.id,
               isPaid: changeData.isPaid,
+              isServed: changeData.isServed,
               timestamp: changeData.timestamp.toDate(),
               note: changeData.note,
               total: changeData.total,
@@ -74,7 +90,9 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
   }, [])
 
   return (
-    <receiptsContext.Provider value={{ orders, receipts, id, orderUpdate }}>
+    <receiptsContext.Provider
+      value={{ orders, receipts, id, updateOrder, deleteOrder }}
+    >
       {children}
     </receiptsContext.Provider>
   )

@@ -2,7 +2,8 @@ interface Receipts {
   orders: Receipt[]
   receipts: Receipt[]
   id: string
-  orderUpdate: (index: any) => void
+  updateOrder: (orderId: string) => void
+  deleteOrder: (orderId: string) => void
 }
 
 interface FReceipt {
@@ -13,6 +14,7 @@ interface FReceipt {
   timestamp: Date
   total: number
   table: number
+  isServed: boolean
 }
 
 interface FItem {

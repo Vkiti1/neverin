@@ -145,11 +145,17 @@ export const MenuItem: FC<Props> = ({
       ) : (
         <>
           <Input
+            defaultValue={itemName}
             marginBottom={2}
             placeholder={itemName}
             onChange={nameChange}
           />
-          <NumberInput marginBottom={2} onChange={priceChange} min={1}>
+          <NumberInput
+            defaultValue={itemPrice}
+            marginBottom={2}
+            onChange={priceChange}
+            min={1}
+          >
             <NumberInputField placeholder={itemPrice.toString()} />
             <NumberInputStepper>
               <NumberIncrementStepper />
