@@ -2,8 +2,9 @@ interface Receipts {
   orders: Receipt[]
   receipts: Receipt[]
   id: string
-  updateOrder: (orderId: string) => void
-  deleteOrder: (orderId: string) => void
+  updateOrder: (orderId: string) => Promise<void>
+  deleteOrder: (orderId: string) => Promise<void>
+  serveOrder: (orderId: string) => Promise<void>
 }
 
 interface FReceipt {

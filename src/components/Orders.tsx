@@ -2,18 +2,23 @@ import { FC } from 'react'
 import { Grid, GridItem } from '@chakra-ui/react'
 import { useReceipts } from 'context/receipts'
 import { IconButton } from '@chakra-ui/react'
-import { CheckIcon, DeleteIcon } from '@chakra-ui/icons'
+import { CheckIcon, DeleteIcon, ArrowForwardIcon } from '@chakra-ui/icons'
 import { Flex } from '@chakra-ui/layout'
 
 export const Orders: FC = () => {
-  const { orders, updateOrder, deleteOrder } = useReceipts()
+  const { orders, updateOrder, deleteOrder, serveOrder } = useReceipts()
 
   return (
-    <Flex>
-      <Grid w='50%' autoColumns='auto' autoRows='auto' gap={2}>
+    <Grid p={4} templateColumns='repeat(2,1fr)'>
+      <Flex ml={4} direction='column'>
         {orders.map((order, i) => {
           return !order.isServed ? (
-            <Grid maxHeight='400px' autoColumns='auto' autoRows='auto' gap={2}>
+            <Grid
+              maxHeight='400px'
+              templateColumns='repeat(3,1fr)'
+              autoRows='auto'
+              gap={2}
+            >
               <GridItem colSpan={3}>
                 Time: {order.timestamp.toLocaleString()}
               </GridItem>
@@ -34,14 +39,14 @@ export const Orders: FC = () => {
                   )
                 })}
               </GridItem>
-              <GridItem colSpan={3} colStart={2}>
+              <GridItem colSpan={2} colStart={2}>
                 Total: {order.total.toFixed(2)}
               </GridItem>
               <GridItem colStart={3}>
                 <IconButton
-                  aria-label='Is order paid?'
-                  onClick={() => updateOrder(order.id)}
-                  icon={<CheckIcon />}
+                  aria-label='Order served'
+                  onClick={() => serveOrder(order.id)}
+                  icon={<ArrowForwardIcon />}
                 ></IconButton>
                 <IconButton
                   ml={4}
@@ -53,11 +58,16 @@ export const Orders: FC = () => {
             </Grid>
           ) : null
         })}
-      </Grid>
-      <Grid w='50%' autoColumns='auto' autoRows='auto' gap={2}>
+      </Flex>
+      <Flex mr={4} direction='column'>
         {orders.map((order, i) => {
           return order.isServed ? (
-            <Grid maxHeight='400px' autoColumns='auto' autoRows='auto' gap={2}>
+            <Grid
+              maxHeight='400px'
+              templateColumns='repeat(3,1fr)'
+              autoRows='auto'
+              gap={2}
+            >
               <GridItem colSpan={3}>
                 Time: {order.timestamp.toLocaleString()}
               </GridItem>
@@ -87,17 +97,11 @@ export const Orders: FC = () => {
                   onClick={() => updateOrder(order.id)}
                   icon={<CheckIcon />}
                 ></IconButton>
-                <IconButton
-                  ml={4}
-                  onClick={() => deleteOrder(order.id)}
-                  aria-label='Delete order'
-                  icon={<DeleteIcon />}
-                ></IconButton>
               </GridItem>
             </Grid>
           ) : null
         })}
-      </Grid>
-    </Flex>
+      </Flex>
+    </Grid>
   )
 }
