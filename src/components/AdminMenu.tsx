@@ -35,6 +35,18 @@ export const AdminMenu: FC<Props> = ({ id }) => {
     fetchMenu()
   }, [])
 
+  const formatCategoryName = (name: string) => {
+    let splitString = name.split(/(?=[A-Z])/g)
+
+    return splitString
+      .map((word, i) =>
+        i === 0
+          ? `${word[0].toUpperCase()}${word.slice(1)}`
+          : word.toLowerCase()
+      )
+      .join(' ')
+  }
+
   const menuUpdate = (changedMenu: Category[]) => {
     setMenu([...changedMenu])
   }
@@ -53,7 +65,7 @@ export const AdminMenu: FC<Props> = ({ id }) => {
               }}
               value={category.name}
             >
-              {category.name}
+              {formatCategoryName(category.name)}
             </option>
           )
         })}

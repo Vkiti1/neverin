@@ -1,6 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
-import { AuthButton } from 'components/AuthButton'
 import { Header } from 'components/Header'
 import { Orders } from 'components/Orders'
 import { ReceiptsProvider } from 'context/receipts'
@@ -14,7 +13,7 @@ const Shop: NextPage<Props> = ({ shop }) => {
   return (
     <>
       <ReceiptsProvider id={shop.id}>
-        <Header />
+        <Header shopName={shop.name} />
         <Orders />
       </ReceiptsProvider>
     </>

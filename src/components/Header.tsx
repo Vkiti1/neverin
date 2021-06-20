@@ -17,12 +17,18 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
+  Heading,
+  Box,
 } from '@chakra-ui/react'
 import React from 'react'
 import { useReceipts } from 'context/receipts'
 import { AuthButton } from './AuthButton'
 
-export const Header: FC = () => {
+interface Props {
+  shopName
+}
+
+export const Header: FC<Props> = ({ shopName }) => {
   const {
     isOpen: isDrawerOpen,
     onOpen: openDrawer,
@@ -36,8 +42,11 @@ export const Header: FC = () => {
   const { receipts, id } = useReceipts()
   const btnRef = React.useRef()
   return (
-    <header>
-      <Flex justifyContent='flex-end'>
+    <Flex as='header' alignItems='center' p={4}>
+      <Box>
+        <Heading>{shopName}</Heading>
+      </Box>
+      <Box ml='auto'>
         <Button variant='ghost' ref={btnRef} onClick={openDrawer}>
           Receipts
         </Button>
@@ -73,7 +82,7 @@ export const Header: FC = () => {
           </ModalContent>
         </Modal>
         <AuthButton variant='ghost' />
-      </Flex>
-    </header>
+      </Box>
+    </Flex>
   )
 }

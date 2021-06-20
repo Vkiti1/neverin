@@ -43,11 +43,6 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
   }
 
   const updateOrder = async (orderId) => {
-    // const updatedOrders = orders
-    // const index = updatedOrders.findIndex((order) => order.id === orderId)
-
-    // updatedOrders[index].isPaid = true
-    // delete updatedOrders[index].id
     try {
       await firebaseInstance
         .firestore()
@@ -58,7 +53,6 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
         .update({
           isPaid: true,
         })
-      //updatedOrders[index].id = orderId
     } catch (err) {
       console.error(err)
     }
@@ -72,33 +66,33 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
       .collection('receipts')
       .onSnapshot((querySnapshot) => {
         const receipts = querySnapshot.docs
-          .filter((change) => change.data().isPaid)
-          .map((change) => {
-            const changeData = change.data()
+          .filter((docs) => docs.data().isPaid)
+          .map((doc) => {
+            const docData = doc.data()
             return {
-              id: change.id,
-              isPaid: changeData.isPaid,
-              isServed: changeData.isServed,
-              timestamp: changeData.timestamp.toDate(),
-              note: changeData.note,
-              total: changeData.total,
-              order: changeData.order,
-              table: changeData.table,
+              id: doc.id,
+              isPaid: docData.isPaid,
+              isServed: docData.isServed,
+              timestamp: docData.timestamp.toDate(),
+              note: docData.note,
+              total: docData.total,
+              order: docData.order,
+              table: docData.table,
             }
           })
         const orders = querySnapshot.docs
-          .filter((change) => !change.data().isPaid)
-          .map((change) => {
-            const changeData = change.data()
+          .filter((docs) => !docs.data().isPaid)
+          .map((doc) => {
+            const docData = doc.data()
             return {
-              id: change.id,
-              isPaid: changeData.isPaid,
-              isServed: changeData.isServed,
-              timestamp: changeData.timestamp.toDate(),
-              note: changeData.note,
-              total: changeData.total,
-              order: changeData.order,
-              table: changeData.table,
+              id: doc.id,
+              isPaid: docData.isPaid,
+              isServed: docData.isServed,
+              timestamp: docData.timestamp.toDate(),
+              note: docData.note,
+              total: docData.total,
+              order: docData.order,
+              table: docData.table,
             }
           })
         setOrders(orders)
