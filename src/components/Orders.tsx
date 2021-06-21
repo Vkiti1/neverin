@@ -7,7 +7,7 @@ import { Flex } from '@chakra-ui/layout'
 import { Order } from 'components/Order'
 
 export const Orders: FC = () => {
-  const { orders, updateOrder } = useReceipts()
+  const { orders } = useReceipts()
 
   return (
     <Grid p={4} templateColumns='repeat(2,1fr)'>

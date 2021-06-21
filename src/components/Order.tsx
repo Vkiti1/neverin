@@ -25,7 +25,7 @@ export const Order: FC<Props> = ({ order }) => {
       <GridItem colSpan={3}>
         {order.order.map((item) => {
           return (
-            <Grid templateColumns='repeat(3,1fr)'>
+            <Grid key={order.id} templateColumns='repeat(3,1fr)'>
               <GridItem colStart={1}>Item: {item.name}</GridItem>
               <GridItem colStart={2}>Quantity: {item.quantity}</GridItem>
               <GridItem colStart={3}>Price: {item.price.toFixed(2)}</GridItem>
@@ -38,6 +38,12 @@ export const Order: FC<Props> = ({ order }) => {
       </GridItem>
       <GridItem colStart={3}>
         {order.isServed ? (
+          <IconButton
+            aria-label='Is order paid?'
+            onClick={() => updateOrder(order.id)}
+            icon={<CheckIcon />}
+          ></IconButton>
+        ) : (
           <>
             <IconButton
               aria-label='Order served'
@@ -51,15 +57,8 @@ export const Order: FC<Props> = ({ order }) => {
               icon={<DeleteIcon />}
             ></IconButton>
           </>
-        ) : (
-          <IconButton
-            aria-label='Is order paid?'
-            onClick={() => updateOrder(order.id)}
-            icon={<CheckIcon />}
-          ></IconButton>
         )}
       </GridItem>
-      {order.isServed ? 'da' : 'ne'}
     </Grid>
   )
 }

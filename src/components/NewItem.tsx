@@ -1,5 +1,12 @@
-import { IconButton, Input, Select } from '@chakra-ui/react'
-import { ChangeEventHandler, FC, MouseEventHandler, useState } from 'react'
+import { IconButton, Input, Select, storageKey } from '@chakra-ui/react'
+import {
+  ChangeEventHandler,
+  createRef,
+  FC,
+  MouseEventHandler,
+  useRef,
+  useState,
+} from 'react'
 import {
   NumberInput,
   NumberInputField,
@@ -7,6 +14,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Text,
+  Button,
 } from '@chakra-ui/react'
 import { CloseIcon, CheckIcon, AddIcon } from '@chakra-ui/icons'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
@@ -25,15 +33,39 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
   const [mode, setMode] = useState<Mode>('read')
   const [name, setName] = useState<string>('')
   const [price, setPrice] = useState<number>(null)
+  const [code, setCode] = useState<string>('')
+  const [image, setImage] = useState<File>(null)
+  const [categoryName, setCategoryName] = useState<string>('')
   const [categoryIndex, setCategoryIndex] = useState<number>(0)
 
   const onItemCancel: MouseEventHandler<HTMLButtonElement> = () => {
     setName('')
     setPrice(null)
+    setCode('')
+    setImage(null)
     setMode('read')
   }
 
+  const toDataUrl = (image) => {
+    if (image) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = reject
+        reader.readAsDataURL(image)
+      })
+    }
+  }
+
   const onItemSubmit: MouseEventHandler<HTMLButtonElement> = async () => {
+    if (
+      categoryName === '' ||
+      categoryName == null ||
+      typeof categoryName === 'undefined'
+    ) {
+      console.log('you need to select a category')
+      return
+    }
     if (name === '' || name == null || typeof name === 'undefined') {
       console.log('item name needs to be defined')
       return
@@ -42,11 +74,30 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
       console.log('price needs to be a number')
       return
     }
+    if (code === '' || code == null || typeof code === 'undefined') {
+      console.log('code needs to be defined')
+      return
+    }
+
+    const storage = image
+      ? firebaseInstance
+          .storage()
+          .ref()
+          .child(`${id}/images/${categoryName}/${image.name}`)
+      : null
+
+    const dataUrlImage = (await toDataUrl(image)) as string
 
     const newMenu = menu
 
+    // @ts-ignore
+    newMenu[categoryIndex].items[name] = {
+      price: price,
+      image: image ? `${id}/images/${categoryName}/${image.name}` : '',
+      code: code,
+    }
+
     try {
-      newMenu[categoryIndex].items[name] = price
       menuUpdate(newMenu)
       await firebaseInstance
         .firestore()
@@ -55,10 +106,17 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
         .collection('menu')
         .doc(menu[categoryIndex].name)
         .set(newMenu[categoryIndex].items)
+      if (storage) {
+        await storage.putString(dataUrlImage, 'data_url')
+      }
     } catch (err) {
       menuUpdate(menu)
       console.error(err)
     } finally {
+      setName('')
+      setPrice(null)
+      setCode('')
+      setImage(null)
       setMode('read')
     }
   }
@@ -74,6 +132,26 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
     setName(e.target.value)
   }
 
+  const codeChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setCode(e.target.value)
+  }
+
+  const imageChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setImage(e.target.files[0])
+  }
+
+  const formatCategoryName = (name: string) => {
+    let splitString = name.split(/(?=[A-Z])/g)
+
+    return splitString
+      .map((word, i) =>
+        i === 0
+          ? `${word[0].toUpperCase()}${word.slice(1)}`
+          : word.toLowerCase()
+      )
+      .join(' ')
+  }
+
   return (
     <div>
       {mode === 'write' ? (
@@ -87,8 +165,12 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
             {menu.map((category, i) => {
               return (
                 <option
-                  onClick={() => setCategoryIndex(i)}
-                  value={category.name}
+                  key={category.name}
+                  onClick={() => {
+                    setCategoryIndex(i)
+                    setCategoryName(category.name)
+                  }}
+                  value={formatCategoryName(category.name)}
                 >
                   {category.name}
                 </option>
@@ -112,6 +194,29 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
+          <Input
+            marginBottom={2}
+            onChange={codeChange}
+            placeholder='Item code'
+          ></Input>
+          <>
+            <Button
+              mt={2}
+              mb={2}
+              variant='ghost'
+              onClick={() => document.getElementById('file').click()}
+            >
+              <Input
+                id='file'
+                type='file'
+                marginBottom={2}
+                placeholder='Image'
+                display='none'
+                onChange={imageChange}
+              />
+              Select Image
+            </Button>
+          </>
           <Box>
             <IconButton
               w='45%'

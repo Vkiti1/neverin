@@ -53,8 +53,8 @@ export const AdminMenu: FC<Props> = ({ id }) => {
 
   return (
     <>
-      <NewItem menuUpdate={menuUpdate} id={id} menu={menu} />
-      <Select marginTop={8} marginBottom={2} placeholder='Select category'>
+      <NewItem menu={menu} menuUpdate={menuUpdate} id={id} />
+      <Select mt={8} mb={2} placeholder='Select category'>
         {menu.map((category, i) => {
           return (
             <option
@@ -70,25 +70,29 @@ export const AdminMenu: FC<Props> = ({ id }) => {
           )
         })}
       </Select>
-      {categoryName !== ''
-        ? Object.entries(menu[categoryIndex].items).map(
-            ([itemName, itemPrice]) => {
-              return (
-                <Flex key={itemName} marginBottom={2} direction='column'>
-                  <MenuItem
-                    id={id}
-                    categoryName={categoryName}
-                    categoryIndex={categoryIndex}
-                    itemName={itemName}
-                    menu={menu}
-                    menuUpdate={menuUpdate}
-                    itemPrice={itemPrice}
-                  />
-                </Flex>
-              )
-            }
-          )
-        : null}
+      {categoryName !== '' &&
+        Object.entries(menu[categoryIndex].items).map(
+          ([itemName, itemProperties]) => {
+            return (
+              <Flex key={itemName} marginBottom={2} direction='column'>
+                <MenuItem
+                  id={id}
+                  categoryName={categoryName}
+                  categoryIndex={categoryIndex}
+                  itemName={itemName}
+                  menu={menu}
+                  menuUpdate={menuUpdate}
+                  // @ts-ignore
+                  itemPrice={itemProperties.price}
+                  // @ts-ignore
+                  itemCode={itemProperties.code}
+                  // @ts-ignore
+                  imageUrl={itemProperties.image}
+                />
+              </Flex>
+            )
+          }
+        )}
     </>
   )
 }

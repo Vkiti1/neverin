@@ -30,7 +30,10 @@ interface Category {
 }
 
 interface Items {
-  [key: string]: number
+  [key: string]: string
+  code: string
+  image: string
+  price: number
 }
 
 interface FShop {

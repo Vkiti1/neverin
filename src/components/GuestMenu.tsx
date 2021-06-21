@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Category, Items } from 'types/index'
-import { Box, Text } from '@chakra-ui/react'
-
+import { Box, Heading, Flex, Grid, GridItem } from '@chakra-ui/react'
+import { GuestMenuItem } from 'components/GuestMenuItem'
 interface Props {
   shopId: string
 }
@@ -29,21 +29,40 @@ export const GuestMenu: FC<Props> = ({ shopId }) => {
     return () => unsubscribe()
   }, [])
 
+  const formatCategoryName = (name: string) => {
+    let splitString = name.split(/(?=[A-Z])/g)
+
+    return splitString
+      .map((word, i) =>
+        i === 0
+          ? `${word[0].toUpperCase()}${word.slice(1)}`
+          : word.toLowerCase()
+      )
+      .join(' ')
+  }
+
   return (
     <>
       {menu.map((category) => {
         return (
-          <Box>
-            <Text>{category.name}</Text>
-            <Box>
-              {Object.entries(category.items).map(([itemName, itemPrice]) => {
-                return (
-                  <Text>
-                    {itemName}: {itemPrice}
-                  </Text>
-                )
-              })}
-            </Box>
+          <Box key={category.name}>
+            <Heading>{formatCategoryName(category.name)}</Heading>
+            <Grid templateColumns='repeat(2, 1fr)' autoRows='auto'>
+              {Object.entries(category.items).map(
+                ([itemName, itemProperties]) => {
+                  return (
+                    <GridItem m='auto'>
+                      <GuestMenuItem
+                        key={itemName}
+                        itemName={itemName}
+                        itemPrice={itemProperties.price}
+                        imageUrl={itemProperties.image}
+                      />
+                    </GridItem>
+                  )
+                }
+              )}
+            </Grid>
           </Box>
         )
       })}

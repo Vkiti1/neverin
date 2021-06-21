@@ -11,6 +11,8 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Divider,
+  Flex,
+  Text,
 } from '@chakra-ui/react'
 import { Category } from 'types/index'
 
@@ -24,6 +26,8 @@ interface Props {
   categoryName: string
   id: string
   categoryIndex: number
+  itemCode: string
+  imageUrl: string
 }
 
 export const MenuItem: FC<Props> = ({
@@ -34,20 +38,25 @@ export const MenuItem: FC<Props> = ({
   itemPrice,
   menuUpdate,
   categoryIndex,
+  itemCode,
+  imageUrl,
 }) => {
   const [mode, setMode] = useState<Mode>('read')
   const [name, setName] = useState<string>('')
   const [price, setPrice] = useState<number>(null)
+  const [code, setCode] = useState<string>('')
 
   const startEdit: MouseEventHandler<HTMLButtonElement> = () => {
     setName(itemName)
     setPrice(itemPrice)
+    setCode(itemCode)
     setMode('write')
   }
 
   const onEditCancel: MouseEventHandler<HTMLButtonElement> = () => {
     setName('')
     setPrice(null)
+    setCode('')
     setMode('read')
   }
 
@@ -60,6 +69,10 @@ export const MenuItem: FC<Props> = ({
     valueAsNumber
   ) => {
     setPrice(valueAsNumber)
+  }
+
+  const codeChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setCode(e.target.value)
   }
 
   const deleteMenuItem: MouseEventHandler<HTMLButtonElement> = async () => {
@@ -93,12 +106,20 @@ export const MenuItem: FC<Props> = ({
       console.log('price needs to be a number')
       return
     }
-
+    if (code === '' || code == null || typeof code === 'undefined') {
+      console.log('code needs to be defined')
+      return
+    }
     try {
       const newMenu = menu
 
       delete newMenu[categoryIndex].items[itemName]
-      newMenu[categoryIndex].items[name] = price
+      // @ts-ignore
+      newMenu[categoryIndex].items[name] = {
+        price: price,
+        code: code,
+        image: imageUrl,
+      }
 
       menuUpdate(newMenu)
       await firebaseInstance
@@ -112,6 +133,9 @@ export const MenuItem: FC<Props> = ({
       menuUpdate(menu)
       console.error(err)
     } finally {
+      setName('')
+      setPrice(null)
+      setCode('')
       setMode('read')
     }
   }
@@ -120,9 +144,11 @@ export const MenuItem: FC<Props> = ({
     <>
       {mode === 'read' ? (
         <Box marginBottom={3}>
-          <Box marginBottom={2}>
-            {itemName}: {itemPrice}
-          </Box>
+          <Flex marginBottom={2} justifyContent='space-around'>
+            <Text>{itemName}</Text>
+            <Text>{itemPrice} kn</Text>
+            <Text>{itemCode}</Text>
+          </Flex>
           <Box>
             <IconButton
               w='45%'
@@ -162,6 +188,12 @@ export const MenuItem: FC<Props> = ({
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
+          <Input
+            defaultValue={itemCode}
+            marginBottom={2}
+            placeholder={itemCode}
+            onChange={codeChange}
+          />
           <Box>
             <IconButton
               w='45%'

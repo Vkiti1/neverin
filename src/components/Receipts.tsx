@@ -4,18 +4,23 @@ import { Grid, GridItem } from '@chakra-ui/react'
 
 export const Receipts: FC = () => {
   const { receipts } = useReceipts()
+
   return (
-    <Grid templateColumns='repeat(3, 1fr)' autoRows='auto' gap={2}>
-      {receipts.map((order) => {
+    <Grid templateColumns='repeat(1, 1fr)' autoRows='auto' gap={2}>
+      {receipts.map((receipt) => {
         return (
-          <>
+          <Grid
+            templateColumns='repeat(3,1fr)'
+            autoRows='auto'
+            key={receipt.id}
+          >
             <GridItem colSpan={3}>
-              Time: {order.timestamp.toLocaleString()}
+              Time: {receipt.timestamp.toLocaleString()}
             </GridItem>
-            <GridItem colSpan={3}>Table: {order.table}</GridItem>
-            <GridItem colSpan={3}>Note: {order.note}</GridItem>
+            <GridItem colSpan={3}>Table: {receipt.table}</GridItem>
+            <GridItem colSpan={3}>Note: {receipt.note}</GridItem>
             <GridItem colSpan={3}>
-              {order.order.map((item) => {
+              {receipt.order.map((item) => {
                 return (
                   <Grid templateColumns='repeat(3,1fr)'>
                     <GridItem>Item: {item.name}</GridItem>
@@ -26,9 +31,9 @@ export const Receipts: FC = () => {
               })}
             </GridItem>
             <GridItem colSpan={3} colStart={2}>
-              Total: {order.total.toFixed(2)}
+              Total: {receipt.total.toFixed(2)}
             </GridItem>
-          </>
+          </Grid>
         )
       })}
     </Grid>
