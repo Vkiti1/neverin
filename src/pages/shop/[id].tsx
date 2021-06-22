@@ -12,7 +12,7 @@ interface Props {
 const Shop: NextPage<Props> = ({ shop }) => {
   return (
     <>
-      <ReceiptsProvider id={shop.id}>
+      <ReceiptsProvider shopId={shop.id}>
         <Header shopName={shop.name} />
         <Orders />
       </ReceiptsProvider>

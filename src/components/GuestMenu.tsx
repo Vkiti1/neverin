@@ -3,6 +3,7 @@ import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Category, Items } from 'types/index'
 import { Box, Heading, Flex, Grid, GridItem } from '@chakra-ui/react'
 import { GuestMenuItem } from 'components/GuestMenuItem'
+
 interface Props {
   shopId: string
 }
@@ -46,7 +47,9 @@ export const GuestMenu: FC<Props> = ({ shopId }) => {
       {menu.map((category) => {
         return (
           <Box key={category.name}>
-            <Heading>{formatCategoryName(category.name)}</Heading>
+            <Heading textAlign='center'>
+              {formatCategoryName(category.name)}
+            </Heading>
             <Grid templateColumns='repeat(2, 1fr)' autoRows='auto'>
               {Object.entries(category.items).map(
                 ([itemName, itemProperties]) => {

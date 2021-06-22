@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import { Flex } from '@chakra-ui/layout'
 import { AdminMenu } from 'components/AdminMenu'
 import { Receipts } from 'components/Receipts'
@@ -20,7 +20,6 @@ import {
   Heading,
   Box,
 } from '@chakra-ui/react'
-import React from 'react'
 import { useReceipts } from 'context/receipts'
 import { AuthButton } from './AuthButton'
 
@@ -39,8 +38,8 @@ export const Header: FC<Props> = ({ shopName }) => {
     onOpen: openModal,
     onClose: closeModal,
   } = useDisclosure()
-  const { receipts, id } = useReceipts()
-  const btnRef = React.useRef()
+  const { shopId } = useReceipts()
+  const btnRef = useRef()
   return (
     <Flex as='header' alignItems='center' p={4}>
       <Box>
@@ -76,7 +75,7 @@ export const Header: FC<Props> = ({ shopName }) => {
             <ModalHeader>Menu</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <AdminMenu id={id} />
+              <AdminMenu shopId={shopId} />
             </ModalBody>
             <Button onClick={closeModal}>Close</Button>
           </ModalContent>

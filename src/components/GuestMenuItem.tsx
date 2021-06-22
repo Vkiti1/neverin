@@ -1,6 +1,7 @@
-import { FC, useEffect, useState } from 'react'
-import { firebaseInstance } from 'util/firebase-server-side-instance'
+import { FC, MouseEventHandler, useEffect, useState } from 'react'
+import { useFirebase } from 'context/firebase-instance'
 import { Box, Img, Text } from '@chakra-ui/react'
+import { useReceipts } from 'context/receipts'
 
 interface Props {
   itemPrice: number
@@ -9,49 +10,35 @@ interface Props {
 }
 
 export const GuestMenuItem: FC<Props> = ({ itemPrice, imageUrl, itemName }) => {
-  const [image, setImage] = useState(null)
-  const fetchImage = () => {
-    return new Promise((resolve, reject) => {
-      if (imageUrl !== '') {
-        resolve(
-          firebaseInstance.storage().ref().child(`${imageUrl}`).getDownloadURL()
-        )
-      }
-      reject = (err) => console.error(err)
-    })
-  }
-
-  const wait = async () => {
-    const result = (await fetchImage()) as string
-    return result
-  }
+  const [imageSrc, setImageSrc] = useState(null)
+  const { addGuestOrder } = useReceipts()
+  const firebaseInstance = useFirebase()
 
   useEffect(() => {
-    wait().then((data) => {
-      // @ts-ignore
-      const picture = new Image()
-      picture.setAttribute('src', data)
-      setImage(picture)
-    })
-  }, [])
+    const getImage = async () => {
+      const imageSrc = await firebaseInstance
+        .storage()
+        .ref()
+        .child(imageUrl)
+        .getDownloadURL()
+      setImageSrc(imageSrc)
+    }
 
-  const handleClick = () => {
-    console.log('click')
-  }
+    getImage()
+  }, [])
 
   return (
     <>
-      <Box p={4} onClick={handleClick}>
-        {image ? (
-          <Img
-            w='125px'
-            h='125px'
-            src={image.src}
-            transition='1s ease-in'
-            _active={{ border: '2px solid red', borderRadius: '5px' }}
-            _pressed={{ border: '2px solid red', borderRadius: '5px' }}
-          />
-        ) : null}
+      <Box
+        w='150px'
+        h='150px'
+        p={4}
+        onClick={() => addGuestOrder(itemPrice, itemName)}
+        transition='0.2s ease all'
+        borderRadius='5px'
+        _active={{ border: '5px solid gray', width: '160px', height: '160px' }}
+      >
+        {imageSrc && <Img w='100%' height='90%' src={imageSrc} />}
         <Text>
           {itemName} {itemPrice} kn{' '}
         </Text>

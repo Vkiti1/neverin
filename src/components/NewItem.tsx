@@ -1,12 +1,5 @@
 import { IconButton, Input, Select, storageKey } from '@chakra-ui/react'
-import {
-  ChangeEventHandler,
-  createRef,
-  FC,
-  MouseEventHandler,
-  useRef,
-  useState,
-} from 'react'
+import { ChangeEventHandler, FC, MouseEventHandler, useState } from 'react'
 import {
   NumberInput,
   NumberInputField,
@@ -26,10 +19,10 @@ type Mode = 'read' | 'write'
 interface Props {
   menu: Category[]
   menuUpdate: (changedMenu: Category[]) => void
-  id: string
+  shopId: string
 }
 
-export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
+export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
   const [mode, setMode] = useState<Mode>('read')
   const [name, setName] = useState<string>('')
   const [price, setPrice] = useState<number>(null)
@@ -44,17 +37,6 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
     setCode('')
     setImage(null)
     setMode('read')
-  }
-
-  const toDataUrl = (image) => {
-    if (image) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onload = () => resolve(reader.result)
-        reader.onerror = reject
-        reader.readAsDataURL(image)
-      })
-    }
   }
 
   const onItemSubmit: MouseEventHandler<HTMLButtonElement> = async () => {
@@ -83,17 +65,14 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
       ? firebaseInstance
           .storage()
           .ref()
-          .child(`${id}/images/${categoryName}/${image.name}`)
+          .child(`${shopId}/images/${categoryName}/${image.name}`)
       : null
-
-    const dataUrlImage = (await toDataUrl(image)) as string
 
     const newMenu = menu
 
-    // @ts-ignore
     newMenu[categoryIndex].items[name] = {
       price: price,
-      image: image ? `${id}/images/${categoryName}/${image.name}` : '',
+      image: image ? `${shopId}/images/${categoryName}/${image.name}` : '',
       code: code,
     }
 
@@ -102,12 +81,12 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, id }) => {
       await firebaseInstance
         .firestore()
         .collection('shops')
-        .doc(id)
+        .doc(shopId)
         .collection('menu')
         .doc(menu[categoryIndex].name)
         .set(newMenu[categoryIndex].items)
       if (storage) {
-        await storage.putString(dataUrlImage, 'data_url')
+        await storage.put(image)
       }
     } catch (err) {
       menuUpdate(menu)

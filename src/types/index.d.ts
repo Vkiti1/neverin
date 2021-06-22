@@ -1,10 +1,14 @@
+import { MouseEventHandler } from 'react'
+
 interface Receipts {
   orders: Receipt[]
   receipts: Receipt[]
-  id: string
+  shopId: string
   updateOrder: (orderId: string) => Promise<void>
   deleteOrder: (orderId: string) => Promise<void>
   serveOrder: (orderId: string) => Promise<void>
+  guestOrder: FItem[]
+  addGuestOrder: (itemPrice: number, itemName: string) => void
 }
 
 interface FReceipt {
@@ -30,10 +34,11 @@ interface Category {
 }
 
 interface Items {
-  [key: string]: string
-  code: string
-  image: string
-  price: number
+  [key: string]: {
+    code: string
+    image: string
+    price: number
+  }
 }
 
 interface FShop {

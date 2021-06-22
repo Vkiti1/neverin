@@ -1,5 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next'
 import { GuestMenu } from 'components/GuestMenu'
+import { GuestHeader } from 'components/GuestHeader'
+import { ReceiptsProvider } from 'context/receipts'
 
 interface Props {
   shopId: string
@@ -7,9 +9,10 @@ interface Props {
 }
 const GuestPage: NextPage<Props> = ({ shopId, table }) => {
   return (
-    <>
+    <ReceiptsProvider shopId={shopId}>
+      <GuestHeader />
       <GuestMenu shopId={shopId} />
-    </>
+    </ReceiptsProvider>
   )
 }
 

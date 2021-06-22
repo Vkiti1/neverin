@@ -1,23 +1,24 @@
 import { createContext, useContext, FC, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
-import { FReceipt, Receipts } from 'types/index'
+import { FReceipt, Receipts, FItem } from 'types/index'
 
 interface Props {
-  id: string
+  shopId: string
 }
 
 const receiptsContext = createContext<Receipts>({} as Receipts)
 
-export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
+export const ReceiptsProvider: FC<Props> = ({ children, shopId }) => {
   const [orders, setOrders] = useState<FReceipt[]>([])
   const [receipts, setReceipts] = useState<FReceipt[]>([])
+  const [guestOrder, setGuestOrder] = useState<FItem[]>([])
 
-  const serveOrder = async (orderId) => {
+  const serveOrder = async (orderId: string) => {
     try {
       firebaseInstance
         .firestore()
         .collection('shops')
-        .doc(id)
+        .doc(shopId)
         .collection('receipts')
         .doc(orderId)
         .update({
@@ -28,12 +29,12 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
     }
   }
 
-  const deleteOrder = async (orderId) => {
+  const deleteOrder = async (orderId: string) => {
     try {
       await firebaseInstance
         .firestore()
         .collection('shops')
-        .doc(id)
+        .doc(shopId)
         .collection('receipts')
         .doc(orderId)
         .delete()
@@ -42,12 +43,12 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
     }
   }
 
-  const updateOrder = async (orderId) => {
+  const updateOrder = async (orderId: string) => {
     try {
       await firebaseInstance
         .firestore()
         .collection('shops')
-        .doc(id)
+        .doc(shopId)
         .collection('receipts')
         .doc(orderId)
         .update({
@@ -58,11 +59,30 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
     }
   }
 
+  const postGuestOrder = async () => {}
+
+  const addGuestOrder = (itemPrice: number, itemName: string) => {
+    const index = guestOrder.findIndex((order) => order.name === itemName)
+
+    if (index !== -1) {
+      const copy = guestOrder.slice()
+      copy[index].quantity += 1
+      setGuestOrder(copy)
+    } else {
+      const order = {
+        name: itemName,
+        price: itemPrice,
+        quantity: 1,
+      }
+      setGuestOrder([...guestOrder, order])
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = firebaseInstance
       .firestore()
       .collection('shops')
-      .doc(id)
+      .doc(shopId)
       .collection('receipts')
       .onSnapshot((querySnapshot) => {
         const receipts = querySnapshot.docs
@@ -103,7 +123,16 @@ export const ReceiptsProvider: FC<Props> = ({ children, id }) => {
 
   return (
     <receiptsContext.Provider
-      value={{ orders, receipts, id, updateOrder, deleteOrder, serveOrder }}
+      value={{
+        orders,
+        receipts,
+        shopId,
+        updateOrder,
+        deleteOrder,
+        serveOrder,
+        guestOrder,
+        addGuestOrder,
+      }}
     >
       {children}
     </receiptsContext.Provider>

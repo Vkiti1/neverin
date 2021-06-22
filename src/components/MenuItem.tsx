@@ -24,14 +24,14 @@ interface Props {
   menu: Category[]
   menuUpdate: (changedMenu: Category[]) => void
   categoryName: string
-  id: string
+  shopId: string
   categoryIndex: number
   itemCode: string
   imageUrl: string
 }
 
 export const MenuItem: FC<Props> = ({
-  id,
+  shopId,
   categoryName,
   menu,
   itemName,
@@ -85,7 +85,7 @@ export const MenuItem: FC<Props> = ({
       await firebaseInstance
         .firestore()
         .collection('shops')
-        .doc(id)
+        .doc(shopId)
         .collection('menu')
         .doc(categoryName)
         .set(newMenu[categoryIndex].items)
@@ -114,7 +114,6 @@ export const MenuItem: FC<Props> = ({
       const newMenu = menu
 
       delete newMenu[categoryIndex].items[itemName]
-      // @ts-ignore
       newMenu[categoryIndex].items[name] = {
         price: price,
         code: code,
@@ -125,7 +124,7 @@ export const MenuItem: FC<Props> = ({
       await firebaseInstance
         .firestore()
         .collection('shops')
-        .doc(id)
+        .doc(shopId)
         .collection('menu')
         .doc(categoryName)
         .set(newMenu[categoryIndex].items)
