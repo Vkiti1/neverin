@@ -9,6 +9,11 @@ interface Receipts {
   serveOrder: (orderId: string) => Promise<void>
   guestOrder: FItem[]
   addGuestOrder: (itemPrice: number, itemName: string) => void
+  increaseQuantity: (index: number) => void
+  decreaseQuantity: (index: number) => void
+  submitGuestOrder: () => Promise<void>
+  cancelGuestOrder: () => void
+  addNote: ChangeEventHandler<HTMLInputElement>
 }
 
 interface FReceipt {

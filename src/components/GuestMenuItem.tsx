@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useFirebase } from 'context/firebase-instance'
 import { Box, Img, Text } from '@chakra-ui/react'
 import { useReceipts } from 'context/receipts'

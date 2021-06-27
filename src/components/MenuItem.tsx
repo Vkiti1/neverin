@@ -77,7 +77,7 @@ export const MenuItem: FC<Props> = ({
 
   const deleteMenuItem: MouseEventHandler<HTMLButtonElement> = async () => {
     try {
-      const newMenu = menu
+      const newMenu = menu.slice()
 
       delete newMenu[categoryIndex].items[itemName]
 
@@ -111,7 +111,7 @@ export const MenuItem: FC<Props> = ({
       return
     }
     try {
-      const newMenu = menu
+      const newMenu = menu.slice()
 
       delete newMenu[categoryIndex].items[itemName]
       newMenu[categoryIndex].items[name] = {

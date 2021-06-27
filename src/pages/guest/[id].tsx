@@ -9,7 +9,7 @@ interface Props {
 }
 const GuestPage: NextPage<Props> = ({ shopId, table }) => {
   return (
-    <ReceiptsProvider shopId={shopId}>
+    <ReceiptsProvider shopId={shopId} table={table}>
       <GuestHeader />
       <GuestMenu shopId={shopId} />
     </ReceiptsProvider>

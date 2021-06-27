@@ -68,7 +68,7 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
           .child(`${shopId}/images/${categoryName}/${image.name}`)
       : null
 
-    const newMenu = menu
+    const newMenu = menu.slice()
 
     newMenu[categoryIndex].items[name] = {
       price: price,

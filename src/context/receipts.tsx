@@ -1,17 +1,21 @@
 import { createContext, useContext, FC, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { FReceipt, Receipts, FItem } from 'types/index'
+import { ChangeEventHandler } from 'react'
+import firebase from 'firebase'
 
 interface Props {
   shopId: string
+  table?: number
 }
 
 const receiptsContext = createContext<Receipts>({} as Receipts)
 
-export const ReceiptsProvider: FC<Props> = ({ children, shopId }) => {
+export const ReceiptsProvider: FC<Props> = ({ children, shopId, table }) => {
   const [orders, setOrders] = useState<FReceipt[]>([])
   const [receipts, setReceipts] = useState<FReceipt[]>([])
   const [guestOrder, setGuestOrder] = useState<FItem[]>([])
+  const [note, setNote] = useState<string>('')
 
   const serveOrder = async (orderId: string) => {
     try {
@@ -27,6 +31,26 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId }) => {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  const decreaseQuantity = (index: number) => {
+    const order = guestOrder.slice()
+
+    order[index].quantity -= 1
+
+    if (order[index].quantity <= 0) {
+      order.splice(index, 1)
+    }
+
+    setGuestOrder(order)
+  }
+
+  const increaseQuantity = (index: number) => {
+    const order = guestOrder.slice()
+
+    order[index].quantity += 1
+
+    setGuestOrder(order)
   }
 
   const deleteOrder = async (orderId: string) => {
@@ -59,7 +83,34 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId }) => {
     }
   }
 
-  const postGuestOrder = async () => {}
+  const submitGuestOrder = async () => {
+    const total = guestOrder.reduce((acc, curr) => {
+      return acc + curr.price * curr.quantity
+    }, 0)
+
+    try {
+      await firebaseInstance
+        .firestore()
+        .collection('shops')
+        .doc(shopId)
+        .collection('receipts')
+        .doc()
+        .set({
+          isPaid: false,
+          isServed: false,
+          note: note,
+          order: guestOrder,
+          table: table,
+          timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+          total: total,
+        })
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setGuestOrder([])
+      setNote('')
+    }
+  }
 
   const addGuestOrder = (itemPrice: number, itemName: string) => {
     const index = guestOrder.findIndex((order) => order.name === itemName)
@@ -76,6 +127,15 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId }) => {
       }
       setGuestOrder([...guestOrder, order])
     }
+  }
+
+  const cancelGuestOrder = () => {
+    setGuestOrder([])
+    setNote('')
+  }
+
+  const addNote: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setNote(e.target.value)
   }
 
   useEffect(() => {
@@ -132,6 +192,11 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId }) => {
         serveOrder,
         guestOrder,
         addGuestOrder,
+        increaseQuantity,
+        decreaseQuantity,
+        submitGuestOrder,
+        cancelGuestOrder,
+        addNote,
       }}
     >
       {children}
