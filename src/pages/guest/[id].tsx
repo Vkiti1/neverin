@@ -10,16 +10,15 @@ interface Props {
   table: number
 }
 const GuestPage: NextPage<Props> = ({ shopId, table }) => {
-  const { anonUserSignIn } = useAuth()
+  const { anonUserAuth } = useAuth()
 
   useEffect(() => {
     const signIn = async () => {
-      const user = await anonUserSignIn()
+      const user = await anonUserAuth()
       console.log(user)
       return user
     }
-    signIn()
-    return
+    const unsubscribe = signIn()
   }, [])
 
   return (

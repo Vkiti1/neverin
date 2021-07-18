@@ -6,7 +6,7 @@ interface AuthContext {
   logout: () => Promise<void>
   user: firebase.User
   anonUser: firebase.User
-  anonUserSignIn: () => Promise<firebase.User>
+  anonUserAuth: () => Promise<firebase.User>
 }
 interface Receipts {
   orders: FReceipt[]

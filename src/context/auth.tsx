@@ -7,18 +7,15 @@ const authContext = createContext<AuthContext>({} as AuthContext)
 
 export const AuthProvider: FC = ({ children }) => {
   const firebaseInstance = useFirebase()
-  const [user, setUser] = useState<firebase.User>(
-    firebaseInstance.auth().currentUser
-  )
-  const [anonUser, setAnonUser] = useState<firebase.User>(
-    firebaseInstance.auth().currentUser
-  )
+  const [user, setUser] = useState<firebase.User>()
+  const [anonUser, setAnonUser] = useState<firebase.User>()
 
   const login = async (email: string, password: string) => {
     try {
       const newUser = await firebaseInstance
         .auth()
         .signInWithEmailAndPassword(email, password)
+      setUser(newUser.user)
       return newUser.user
     } catch (err) {
       console.error(err)
@@ -28,12 +25,13 @@ export const AuthProvider: FC = ({ children }) => {
   const logout = async () => {
     try {
       await firebaseInstance.auth().signOut()
+      setUser(null)
     } catch (err) {
       console.error(err)
     }
   }
 
-  const anonUserSignIn = async () => {
+  const anonUserAuth = async () => {
     try {
       const newAnonUser = await firebaseInstance.auth().signInAnonymously()
       setAnonUser(newAnonUser.user)
@@ -43,16 +41,9 @@ export const AuthProvider: FC = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    const unsubscribe = firebaseInstance.auth().onAuthStateChanged(setUser)
-    return () => {
-      unsubscribe()
-    }
-  }, [])
-
   return (
     <authContext.Provider
-      value={{ logout, login, user, anonUserSignIn, anonUser }}
+      value={{ logout, login, user, anonUserAuth, anonUser }}
     >
       {children}
     </authContext.Provider>
