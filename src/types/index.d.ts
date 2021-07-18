@@ -1,8 +1,16 @@
-import { MouseEventHandler } from 'react'
+import { ChangeEventHandler } from 'react'
+import firebase from 'firebase'
 
+interface AuthContext {
+  login: (email: string, password: string) => Promise<firebase.User>
+  logout: () => Promise<void>
+  user: firebase.User
+  anonUser: firebase.User
+  anonUserSignIn: () => Promise<firebase.User>
+}
 interface Receipts {
-  orders: Receipt[]
-  receipts: Receipt[]
+  orders: FReceipt[]
+  receipts: FReceipt[]
   shopId: string
   updateOrder: (orderId: string) => Promise<void>
   deleteOrder: (orderId: string) => Promise<void>
@@ -63,4 +71,4 @@ interface IShop {
   waiters: string[]
 }
 
-export { Receipts, FReceipt, FItem, Category, Items, FShop, IShop }
+export { Receipts, FReceipt, FItem, Category, Items, FShop, IShop, AuthContext }

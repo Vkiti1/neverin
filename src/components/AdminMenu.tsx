@@ -5,6 +5,7 @@ import { MenuItem } from 'components/MenuItem'
 import { NewItem } from 'components/NewItem'
 import { Select } from '@chakra-ui/react'
 import { Category, Items } from 'types/index'
+import { formatCategoryName } from 'util/helpers'
 interface Props {
   shopId: string
 }
@@ -34,18 +35,6 @@ export const AdminMenu: FC<Props> = ({ shopId }) => {
 
     fetchMenu()
   }, [])
-
-  const formatCategoryName = (name: string) => {
-    let splitString = name.split(/(?=[A-Z])/g)
-
-    return splitString
-      .map((word, i) =>
-        i === 0
-          ? `${word[0].toUpperCase()}${word.slice(1)}`
-          : word.toLowerCase()
-      )
-      .join(' ')
-  }
 
   const menuUpdate = (changedMenu: Category[]) => {
     setMenu([...changedMenu])

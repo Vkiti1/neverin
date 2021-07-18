@@ -1,17 +1,16 @@
 import { createContext, FC, useContext, useState, useEffect } from 'react'
 import { useFirebase } from 'context/firebase-instance'
 import firebase from 'firebase'
-interface AuthContext {
-  login: (email: string, password: string) => Promise<firebase.User>
-  logout: () => Promise<void>
-  user: firebase.User
-}
+import { AuthContext } from 'types'
 
 const authContext = createContext<AuthContext>({} as AuthContext)
 
 export const AuthProvider: FC = ({ children }) => {
   const firebaseInstance = useFirebase()
   const [user, setUser] = useState<firebase.User>(
+    firebaseInstance.auth().currentUser
+  )
+  const [anonUser, setAnonUser] = useState<firebase.User>(
     firebaseInstance.auth().currentUser
   )
 
@@ -34,6 +33,16 @@ export const AuthProvider: FC = ({ children }) => {
     }
   }
 
+  const anonUserSignIn = async () => {
+    try {
+      const newAnonUser = await firebaseInstance.auth().signInAnonymously()
+      setAnonUser(newAnonUser.user)
+      return newAnonUser.user
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = firebaseInstance.auth().onAuthStateChanged(setUser)
     return () => {
@@ -42,7 +51,9 @@ export const AuthProvider: FC = ({ children }) => {
   }, [])
 
   return (
-    <authContext.Provider value={{ logout, login, user }}>
+    <authContext.Provider
+      value={{ logout, login, user, anonUserSignIn, anonUser }}
+    >
       {children}
     </authContext.Provider>
   )

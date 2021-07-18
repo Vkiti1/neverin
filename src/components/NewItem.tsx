@@ -13,6 +13,7 @@ import { CloseIcon, CheckIcon, AddIcon } from '@chakra-ui/icons'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Box, Flex } from '@chakra-ui/layout'
 import { Category } from 'types/index'
+import { formatCategoryName } from 'util/helpers'
 
 type Mode = 'read' | 'write'
 
@@ -117,18 +118,6 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
 
   const imageChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setImage(e.target.files[0])
-  }
-
-  const formatCategoryName = (name: string) => {
-    let splitString = name.split(/(?=[A-Z])/g)
-
-    return splitString
-      .map((word, i) =>
-        i === 0
-          ? `${word[0].toUpperCase()}${word.slice(1)}`
-          : word.toLowerCase()
-      )
-      .join(' ')
   }
 
   return (

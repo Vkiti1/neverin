@@ -3,6 +3,7 @@ import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Category, Items } from 'types/index'
 import { Box, Heading, Grid, GridItem } from '@chakra-ui/react'
 import { GuestMenuItem } from 'components/GuestMenuItem'
+import { formatCategoryName } from 'util/helpers'
 
 interface Props {
   shopId: string
@@ -29,18 +30,6 @@ export const GuestMenu: FC<Props> = ({ shopId }) => {
 
     return () => unsubscribe()
   }, [])
-
-  const formatCategoryName = (name: string) => {
-    let splitString = name.split(/(?=[A-Z])/g)
-
-    return splitString
-      .map((word, i) =>
-        i === 0
-          ? `${word[0].toUpperCase()}${word.slice(1)}`
-          : word.toLowerCase()
-      )
-      .join(' ')
-  }
 
   return (
     <>

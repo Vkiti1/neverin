@@ -2,12 +2,26 @@ import { GetServerSideProps, NextPage } from 'next'
 import { GuestMenu } from 'components/GuestMenu'
 import { GuestHeader } from 'components/GuestHeader'
 import { ReceiptsProvider } from 'context/receipts'
+import { useAuth } from 'context/auth'
+import { useEffect } from 'react'
 
 interface Props {
   shopId: string
   table: number
 }
 const GuestPage: NextPage<Props> = ({ shopId, table }) => {
+  const { anonUserSignIn } = useAuth()
+
+  useEffect(() => {
+    const signIn = async () => {
+      const user = await anonUserSignIn()
+      console.log(user)
+      return user
+    }
+    signIn()
+    return
+  }, [])
+
   return (
     <ReceiptsProvider shopId={shopId} table={table}>
       <GuestHeader />
