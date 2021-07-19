@@ -18,24 +18,27 @@ export const Order: FC<Props> = ({ order }) => {
       templateColumns='repeat(3,1fr)'
       autoRows='auto'
       gap={2}
+      borderBottom='2px solid white'
+      p={4}
+      m={2}
     >
-      <GridItem colSpan={3}>Time: {order.timestamp.toLocaleString()}</GridItem>
       <GridItem colSpan={3}>Table: {order.table}</GridItem>
       <GridItem colSpan={3}>Note: {order.note}</GridItem>
+      <GridItem colStart={1}>Item</GridItem>
+      <GridItem colStart={2}>Quantity</GridItem>
+      <GridItem colStart={3}>Price</GridItem>
       <GridItem colSpan={3}>
         {order.order.map((item) => {
           return (
-            <Grid key={order.id} templateColumns='repeat(3,1fr)'>
-              <GridItem colStart={1}>Item: {item.name}</GridItem>
-              <GridItem colStart={2}>Quantity: {item.quantity}</GridItem>
-              <GridItem colStart={3}>Price: {item.price.toFixed(2)}</GridItem>
+            <Grid ml={5} key={order.id} templateColumns='repeat(3,1fr)'>
+              <GridItem colStart={1}>{item.name}</GridItem>
+              <GridItem colStart={2}>{item.quantity}</GridItem>
+              <GridItem colStart={3}>{item.price.toFixed(2)}</GridItem>
             </Grid>
           )
         })}
       </GridItem>
-      <GridItem colSpan={2} colStart={2}>
-        Total: {order.total.toFixed(2)}
-      </GridItem>
+      <GridItem colStart={1}>Total: {order.total.toFixed(2)}</GridItem>
       <GridItem colStart={3}>
         {order.isServed ? (
           <IconButton
