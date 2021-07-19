@@ -24,7 +24,7 @@ export const Cart: FC = () => {
           return (
             <>
               <GridItem>{item.name}</GridItem>
-              <GridItem m='auto'>
+              <GridItem>
                 {item.quantity}
                 <IconButton
                   onClick={() => increaseQuantity(i)}
@@ -41,7 +41,7 @@ export const Cart: FC = () => {
                   icon={<MinusIcon />}
                 />
               </GridItem>
-              <GridItem>{item.price}</GridItem>
+              <GridItem>{item.price.toFixed(2)}</GridItem>
             </>
           )
         })}
@@ -52,9 +52,11 @@ export const Cart: FC = () => {
       </GridItem>
       <GridItem>
         Total:{' '}
-        {guestOrder.reduce((acc, curr) => {
-          return acc + curr.price * curr.quantity
-        }, 0)}
+        {guestOrder
+          .reduce((acc, curr) => {
+            return acc + curr.price * curr.quantity
+          }, 0)
+          .toFixed(2)}
       </GridItem>
       <GridItem>
         <IconButton

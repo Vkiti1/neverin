@@ -30,7 +30,7 @@ export const Order: FC<Props> = ({ order }) => {
       <GridItem colSpan={3}>
         {order.order.map((item) => {
           return (
-            <Grid ml={5} key={order.id} templateColumns='repeat(3,1fr)'>
+            <Grid ml={6} key={order.id} templateColumns='repeat(3,1fr)'>
               <GridItem colStart={1}>{item.name}</GridItem>
               <GridItem colStart={2}>{item.quantity}</GridItem>
               <GridItem colStart={3}>{item.price.toFixed(2)}</GridItem>
