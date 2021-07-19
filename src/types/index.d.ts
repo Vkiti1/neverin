@@ -22,6 +22,7 @@ interface Receipts {
   submitGuestOrder: () => Promise<void>
   cancelGuestOrder: () => void
   addNote: ChangeEventHandler<HTMLInputElement>
+  note: string
 }
 
 interface FReceipt {

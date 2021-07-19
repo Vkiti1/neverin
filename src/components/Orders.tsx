@@ -10,14 +10,21 @@ export const Orders: FC = () => {
   return (
     <Grid p={4} templateColumns='repeat(2,1fr)'>
       <Flex ml={4} direction='column'>
-        {orders.map((order, i) => {
+        {/* {orders.map((order, i) => {
           return !order.isServed && <Order key={order.id} order={order} />
-        })}
+        })} */}
+        {orders
+          .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
+          .map((order, i) => {
+            return !order.isServed && <Order key={order.id} order={order} />
+          })}
       </Flex>
       <Flex mr={4} direction='column'>
-        {orders.map((order, i) => {
-          return order.isServed && <Order key={order.id} order={order} />
-        })}
+        {orders
+          .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
+          .map((order, i) => {
+            return order.isServed && <Order key={order.id} order={order} />
+          })}
       </Flex>
     </Grid>
   )

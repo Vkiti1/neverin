@@ -12,6 +12,7 @@ export const Cart: FC = () => {
     submitGuestOrder,
     cancelGuestOrder,
     addNote,
+    note,
   } = useReceipts()
   return (
     <>
@@ -47,7 +48,7 @@ export const Cart: FC = () => {
       </Grid>
       <GridItem>
         Note for the waiter:
-        <Input onChange={addNote} type='text'></Input>
+        <Input onChange={addNote} type='text' value={note}></Input>
       </GridItem>
       <GridItem>
         Total:{' '}

@@ -84,6 +84,9 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId, table }) => {
   }
 
   const submitGuestOrder = async () => {
+    if (guestOrder.length <= 0) {
+      return
+    }
     const total = guestOrder.reduce((acc, curr) => {
       return acc + curr.price * curr.quantity
     }, 0)
@@ -197,6 +200,7 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId, table }) => {
         submitGuestOrder,
         cancelGuestOrder,
         addNote,
+        note,
       }}
     >
       {children}
