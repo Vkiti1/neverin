@@ -43,7 +43,7 @@ export const GuestMenu: FC<Props> = ({ shopId }) => {
               {Object.entries(category.items).map(
                 ([itemName, itemProperties]) => {
                   return (
-                    <GridItem m='auto'>
+                    <GridItem textAlign='center' m='10px auto'>
                       <GuestMenuItem
                         key={itemName}
                         itemName={itemName}

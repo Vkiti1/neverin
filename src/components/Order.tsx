@@ -18,10 +18,11 @@ export const Order: FC<Props> = ({ order }) => {
       templateColumns='repeat(3,1fr)'
       autoRows='auto'
       gap={2}
-      borderBottom='2px solid white'
+      borderBottom='2px solid lightgray'
       p={4}
       m={2}
     >
+      <GridItem colSpan={3}>Time: {order.timestamp.toDateString()}</GridItem>
       <GridItem colSpan={3}>Table: {order.table}</GridItem>
       <GridItem colSpan={3}>Note: {order.note}</GridItem>
       <GridItem colStart={1}>Item</GridItem>
