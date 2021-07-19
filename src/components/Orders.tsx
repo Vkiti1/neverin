@@ -8,9 +8,14 @@ export const Orders: FC = () => {
   const { orders } = useReceipts()
 
   return (
-    <Grid p={4} templateColumns='1fr 2px 1fr'>
-      <Flex ml={4} direction='column'>
-        <Heading ml={4} fontSize='1.7rem' fontWeight='600'>
+    <Grid templateColumns='1fr 2px 1fr'>
+      <Flex direction='column'>
+        <Heading
+          borderBottom='2px solid white'
+          alignSelf='center'
+          fontSize='1.7rem'
+          fontWeight='600'
+        >
           New orders
         </Heading>
         {orders
@@ -19,11 +24,14 @@ export const Orders: FC = () => {
             return !order.isServed && <Order key={order.id} order={order} />
           })}
       </Flex>
-      <GridItem colStart={2} w={0}>
-        <Divider orientation='vertical' width='100%' />
-      </GridItem>
-      <Flex mr={4} direction='column'>
-        <Heading ml={4} fontSize='1.7rem' fontWeight='600'>
+      <GridItem colStart={2} backgroundColor='white' />
+      <Flex direction='column'>
+        <Heading
+          borderBottom='2px solid white'
+          alignSelf='center'
+          fontSize='1.7rem'
+          fontWeight='600'
+        >
           Served orders
         </Heading>
         {orders
