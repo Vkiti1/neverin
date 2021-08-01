@@ -43,9 +43,8 @@ export const GuestMenu: FC<Props> = ({ shopId }) => {
               {Object.entries(category.items).map(
                 ([itemName, itemProperties]) => {
                   return (
-                    <GridItem textAlign='center' m='10px auto'>
+                    <GridItem key={itemName} textAlign='center' m='10px auto'>
                       <GuestMenuItem
-                        key={itemName}
                         itemName={itemName}
                         itemPrice={itemProperties.price}
                         imageUrl={itemProperties.image}

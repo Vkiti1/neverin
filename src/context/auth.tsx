@@ -8,7 +8,6 @@ const authContext = createContext<AuthContext>({} as AuthContext)
 export const AuthProvider: FC = ({ children }) => {
   const firebaseInstance = useFirebase()
   const [user, setUser] = useState<firebase.User>()
-  const [anonUser, setAnonUser] = useState<firebase.User>()
 
   const login = async (email: string, password: string) => {
     try {
@@ -31,20 +30,21 @@ export const AuthProvider: FC = ({ children }) => {
     }
   }
 
-  const anonUserAuth = async () => {
+  const loginAnonymously = async () => {
     try {
-      const newAnonUser = await firebaseInstance.auth().signInAnonymously()
-      setAnonUser(newAnonUser.user)
-      return newAnonUser.user
+      await firebaseInstance.auth().signInAnonymously()
     } catch (err) {
       console.error(err)
     }
   }
 
+  useEffect(() => {
+    const unsubscribe = firebaseInstance.auth().onAuthStateChanged(setUser)
+    return () => unsubscribe()
+  }, [firebaseInstance])
+
   return (
-    <authContext.Provider
-      value={{ logout, login, user, anonUserAuth, anonUser }}
-    >
+    <authContext.Provider value={{ logout, login, user, loginAnonymously }}>
       {children}
     </authContext.Provider>
   )

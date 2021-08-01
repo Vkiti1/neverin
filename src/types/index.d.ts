@@ -5,8 +5,7 @@ interface AuthContext {
   login: (email: string, password: string) => Promise<firebase.User>
   logout: () => Promise<void>
   user: firebase.User
-  anonUser: firebase.User
-  anonUserAuth: () => Promise<firebase.User>
+  loginAnonymously: () => Promise<void>
 }
 interface Receipts {
   orders: FReceipt[]

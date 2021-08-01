@@ -3,6 +3,7 @@ import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { FReceipt, Receipts, FItem } from 'types/index'
 import { ChangeEventHandler } from 'react'
 import firebase from 'firebase'
+import { useRouter } from 'next/router'
 
 interface Props {
   shopId: string
@@ -16,6 +17,7 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId, table }) => {
   const [receipts, setReceipts] = useState<FReceipt[]>([])
   const [guestOrder, setGuestOrder] = useState<FItem[]>([])
   const [note, setNote] = useState<string>('')
+  const router = useRouter()
 
   const serveOrder = async (orderId: string) => {
     try {
@@ -112,6 +114,7 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId, table }) => {
     } finally {
       setGuestOrder([])
       setNote('')
+      router.push('/')
     }
   }
 

@@ -38,7 +38,9 @@ export const GuestMenuItem: FC<Props> = ({ itemPrice, imageUrl, itemName }) => {
         borderRadius='5px'
         _active={{ border: '5px solid gray', width: '160px', height: '160px' }}
       >
-        {imageSrc && <Img w='100%' height='90%' src={imageSrc} />}
+        {imageSrc && (
+          <Img loading='lazy' w='100%' height='90%' src={imageSrc} />
+        )}
         <Text>
           {itemName} {itemPrice} kn{' '}
         </Text>
