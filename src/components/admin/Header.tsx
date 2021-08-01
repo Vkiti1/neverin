@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Flex } from '@chakra-ui/layout'
 import { AdminMenu } from 'components/admin/AdminMenu'
 import { Receipts } from 'components/admin/Receipts'
@@ -32,24 +32,48 @@ import { useReceipts } from 'context/receipts'
 import { AuthButton } from '../AuthButton'
 import { Notifications } from 'components/admin/Notifications'
 import { GrNotification } from 'react-icons/gr'
+import { useFirebase } from 'context/firebase-instance'
 
 interface Props {
-  shopName
+  shopName: string
 }
 
 export const Header: FC<Props> = ({ shopName }) => {
+  const firebaseInstance = useFirebase()
+
+  const [notify, setNotify] = useState<boolean>(false)
+
   const {
     isOpen: isDrawerOpen,
     onOpen: openDrawer,
     onClose: closeDrawer,
   } = useDisclosure()
+
   const {
     isOpen: isModalOpen,
     onOpen: openModal,
     onClose: closeModal,
   } = useDisclosure()
+
   const { shopId } = useReceipts()
-  const btnRef = useRef()
+  useEffect(() => {
+    const unsubscribe = firebaseInstance
+      .firestore()
+      .collection('shops')
+      .doc(shopId)
+      .collection('notifications')
+      .onSnapshot((notifications) =>
+        notifications.docChanges().map((change) => {
+          if (change.type === 'added') {
+            setNotify(true)
+          }
+        })
+      )
+
+    setNotify(false)
+
+    return () => unsubscribe()
+  }, [])
   return (
     <Flex as='header' alignItems='center' p={4}>
       <Box>
@@ -61,6 +85,9 @@ export const Header: FC<Props> = ({ shopName }) => {
             <IconButton
               icon={<GrNotification />}
               aria-label='notification button'
+              onClick={() => setNotify(false)}
+              bg={notify ? 'red' : 'gray'}
+              color='white'
             />
           </PopoverTrigger>
           <PopoverContent>
@@ -72,7 +99,7 @@ export const Header: FC<Props> = ({ shopName }) => {
             </PopoverBody>
           </PopoverContent>
         </Popover>
-        <Button variant='ghost' ref={btnRef} onClick={openDrawer}>
+        <Button variant='ghost' onClick={openDrawer}>
           Receipts
         </Button>
         <Drawer
@@ -80,7 +107,6 @@ export const Header: FC<Props> = ({ shopName }) => {
           isOpen={isDrawerOpen}
           placement='right'
           onClose={closeDrawer}
-          finalFocusRef={btnRef}
         >
           <DrawerOverlay />
           <DrawerContent>

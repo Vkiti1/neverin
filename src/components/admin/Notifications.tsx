@@ -7,6 +7,7 @@ export const Notifications: FC = () => {
   const firebaseInstance = useFirebase()
   const { shopId } = useReceipts()
   const [notifications, setNotifications] = useState([])
+  const [] = useState<boolean>(false)
   useEffect(() => {
     const unsubscribe = firebaseInstance
       .firestore()
