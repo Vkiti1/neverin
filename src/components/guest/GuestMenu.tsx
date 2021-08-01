@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Category, Items } from 'types/index'
 import { Box, Heading, Grid, GridItem } from '@chakra-ui/react'
-import { GuestMenuItem } from 'components/GuestMenuItem'
+import { GuestMenuItem } from 'components/guest/GuestMenuItem'
 import { formatCategoryName } from 'util/helpers'
 
 interface Props {

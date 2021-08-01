@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Flex } from '@chakra-ui/layout'
-import { MenuItem } from 'components/MenuItem'
-import { NewItem } from 'components/NewItem'
+import { MenuItem } from 'components/admin/MenuItem'
+import { NewItem } from 'components/admin/NewItem'
 import { Select } from '@chakra-ui/react'
 import { Category, Items } from 'types/index'
 import { formatCategoryName } from 'util/helpers'
+
 interface Props {
   shopId: string
 }

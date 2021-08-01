@@ -22,6 +22,7 @@ interface Receipts {
   cancelGuestOrder: () => void
   addNote: ChangeEventHandler<HTMLInputElement>
   note: string
+  table: number
 }
 
 interface FReceipt {

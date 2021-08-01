@@ -1,7 +1,7 @@
 import { FC, useRef } from 'react'
 import { Flex } from '@chakra-ui/layout'
-import { AdminMenu } from 'components/AdminMenu'
-import { Receipts } from 'components/Receipts'
+import { AdminMenu } from 'components/admin/AdminMenu'
+import { Receipts } from 'components/admin/Receipts'
 import {
   Drawer,
   DrawerBody,
@@ -19,9 +19,19 @@ import {
   ModalCloseButton,
   Heading,
   Box,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverArrow,
+  PopoverCloseButton,
+  IconButton,
 } from '@chakra-ui/react'
 import { useReceipts } from 'context/receipts'
-import { AuthButton } from './AuthButton'
+import { AuthButton } from '../AuthButton'
+import { Notifications } from 'components/admin/Notifications'
+import { GrNotification } from 'react-icons/gr'
 
 interface Props {
   shopName
@@ -46,6 +56,22 @@ export const Header: FC<Props> = ({ shopName }) => {
         <Heading>{shopName}</Heading>
       </Box>
       <Box ml='auto'>
+        <Popover>
+          <PopoverTrigger>
+            <IconButton
+              icon={<GrNotification />}
+              aria-label='notification button'
+            />
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>Notifications</PopoverHeader>
+            <PopoverBody>
+              <Notifications />
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
         <Button variant='ghost' ref={btnRef} onClick={openDrawer}>
           Receipts
         </Button>

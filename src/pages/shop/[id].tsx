@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
-import { Header } from 'components/Header'
-import { Orders } from 'components/Orders'
+import { Header } from 'components/admin/Header'
+import { Orders } from 'components/admin/Orders'
 import { ReceiptsProvider } from 'context/receipts'
 import { FShop, IShop } from 'types/index'
 

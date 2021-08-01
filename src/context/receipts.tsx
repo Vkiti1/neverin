@@ -204,6 +204,7 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId, table }) => {
         cancelGuestOrder,
         addNote,
         note,
+        table,
       }}
     >
       {children}

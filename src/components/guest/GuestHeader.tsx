@@ -9,20 +9,44 @@ import {
   DrawerCloseButton,
   useDisclosure,
   IconButton,
-  Box,
+  Button,
 } from '@chakra-ui/react'
-import { Cart } from 'components/Cart'
+import { Cart } from 'components/guest/Cart'
 import { FiShoppingCart } from 'react-icons/fi'
+import { firebaseInstance } from 'util/firebase-server-side-instance'
+import { useReceipts } from 'context/receipts'
+import firebase from 'firebase'
 
 export const GuestHeader: FC = () => {
+  const { table, shopId } = useReceipts()
   const {
     isOpen: isDrawerOpen,
     onOpen: openDrawer,
     onClose: closeDrawer,
   } = useDisclosure()
   const btnRef = useRef()
+
+  const callAWaiter = async () => {
+    try {
+      await firebaseInstance
+        .firestore()
+        .collection('shops')
+        .doc(shopId)
+        .collection('notifications')
+        .add({
+          table,
+          timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+        })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <Flex as='header' p={2} justifyContent='flex-end'>
+      <Button bg='green' onClick={callAWaiter}>
+        Call a waiter
+      </Button>
       <IconButton
         size='lg'
         aria-label='Guest cart'

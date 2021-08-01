@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Grid, Heading, Divider, GridItem } from '@chakra-ui/react'
 import { useReceipts } from 'context/receipts'
 import { Flex } from '@chakra-ui/layout'
-import { Order } from 'components/Order'
+import { Order } from 'components/admin/Order'
 
 export const Orders: FC = () => {
   const { orders } = useReceipts()
