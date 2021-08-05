@@ -21,19 +21,19 @@ const HomePage: NextPage = () => {
     <>
       <Header />
       <Flex
+        h='calc(100vh - 72px)'
         justifyContent='center'
         direction='column'
         alignItems='center'
-        m='auto'
-        transform='translate(0, 100%)'
+        textAlign='center'
       >
-        <Heading fontSize='4xl' color='text'>
+        <Heading fontSize='6xl' color='text' my={4}>
           Neverin
         </Heading>
-        <Text fontSize='xl' color='text'>
+        <Text fontSize='3xl' color='text' my={4}>
           Final thesis on the subject of QR ordering in the service industry.
         </Text>
-        <Text>
+        <Text fontSize='xl' color='text' my={4}>
           To use the service as a guest, scan the QR codes at this address.
           (link)
         </Text>
