@@ -105,7 +105,7 @@ export const Header: FC<Props> = ({ shopName }) => {
           Receipts
         </Button>
         <Drawer
-          size='md'
+          size='lg'
           isOpen={isDrawerOpen}
           placement='right'
           onClose={closeDrawer}

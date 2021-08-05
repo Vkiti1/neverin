@@ -79,7 +79,7 @@ export const GuestHeader: FC = () => {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent bg='accent' color='white'>
           <DrawerCloseButton />
           <DrawerHeader>Your order</DrawerHeader>
           <DrawerBody>

@@ -34,9 +34,12 @@ export const GuestMenuItem: FC<Props> = ({ itemPrice, imageUrl, itemName }) => {
         p={4}
         onClick={() => addGuestOrder(itemPrice, itemName)}
         boxShadow='lg'
-        border='1px solid lightgray'
+        border='2px solid rgba(82, 82, 82, 0)'
+        borderRadius='5px'
         textAlign='center'
         bg='#fff'
+        transition='0.2s all ease'
+        _active={{ border: '2px solid rgba(82, 82, 82, 1)' }}
       >
         {imageSrc && (
           <Img

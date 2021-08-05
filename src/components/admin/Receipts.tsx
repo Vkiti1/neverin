@@ -1,12 +1,12 @@
 import { FC } from 'react'
 import { useReceipts } from 'context/receipts'
-import { Grid, GridItem } from '@chakra-ui/react'
+import { Flex, Grid, GridItem } from '@chakra-ui/react'
 
 export const Receipts: FC = () => {
   const { receipts } = useReceipts()
 
   return (
-    <Grid templateColumns='repeat(1, 1fr)' autoRows='auto' gap={2}>
+    <Flex direction='column' fontSize='lg'>
       {receipts
         .sort((a, b) => b.timestamp.getDate() - a.timestamp.getDate())
         .map((receipt) => {
@@ -44,6 +44,6 @@ export const Receipts: FC = () => {
             </Grid>
           )
         })}
-    </Grid>
+    </Flex>
   )
 }
