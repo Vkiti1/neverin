@@ -50,47 +50,50 @@ export const Order: FC<Props> = ({ order }) => {
                 {item.quantity}
               </GridItem>
               <GridItem colStart={3} fontSize='xl'>
-                {item.price.toFixed(2)}
+                {item.price.toFixed(2)} kn
               </GridItem>
             </Grid>
           )
         })}
       </GridItem>
       <GridItem fontSize='xl' colStart={1}>
-        Total: {order.total.toFixed(2)}
+        Total: {order.total.toFixed(2)} kn
       </GridItem>
-      <GridItem colStart={3} fontSize='xl'>
+      <GridItem colStart={3} justifySelf='end' fontSize='xl'>
         {order.isServed ? (
           <IconButton
             aria-label='Is order paid?'
             onClick={() => updateOrder(order.id)}
-            fontSize='2xl'
+            fontSize='3xl'
             border='2px solid rgba(79, 79, 79, 0)'
             _hover={{ border: '2px solid rgba(79, 79, 79, 1)' }}
             transition='0.15s all ease-in'
+            bg='white'
             icon={<CheckIcon />}
           ></IconButton>
         ) : (
           <>
             <IconButton
               aria-label='Order served'
-              fontSize='2xl'
+              fontSize='3xl'
               onClick={() => serveOrder(order.id)}
               icon={<ArrowForwardIcon />}
               border='2px solid rgba(79, 79, 79, 0)'
               _hover={{ border: '2px solid rgba(79, 79, 79, 1)' }}
               transition='0.15s all ease-in'
+              bg='white'
             ></IconButton>
             <IconButton
               ml={4}
               onClick={() => deleteOrder(order.id)}
-              fontSize='2xl'
+              fontSize='3xl'
               aria-label='Delete order'
               size='lg'
               icon={<DeleteIcon />}
               border='2px solid rgba(79, 79, 79, 0)'
               _hover={{ border: '2px solid rgba(79, 79, 79, 1)' }}
               transition='0.15s all ease-in'
+              bg='white'
             ></IconButton>
           </>
         )}

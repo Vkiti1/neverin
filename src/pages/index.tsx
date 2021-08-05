@@ -20,12 +20,22 @@ const HomePage: NextPage = () => {
   return (
     <>
       <Header />
-      <Flex justifyContent='center' direction='column' alignItems='center'>
+      <Flex
+        justifyContent='center'
+        direction='column'
+        alignItems='center'
+        m='auto'
+        transform='translate(0, 100%)'
+      >
         <Heading fontSize='4xl' color='text'>
           Neverin
         </Heading>
         <Text fontSize='xl' color='text'>
           Final thesis on the subject of QR ordering in the service industry.
+        </Text>
+        <Text>
+          To use the service as a guest, scan the QR codes at this address.
+          (link)
         </Text>
       </Flex>
     </>

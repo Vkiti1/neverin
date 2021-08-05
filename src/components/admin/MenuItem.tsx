@@ -142,8 +142,8 @@ export const MenuItem: FC<Props> = ({
   return (
     <>
       {mode === 'read' ? (
-        <Box marginBottom={3}>
-          <Flex marginBottom={2} justifyContent='space-around'>
+        <Box color='white' my={4}>
+          <Flex marginBottom={2} justifyContent='space-evenly'>
             <Text>{itemName}</Text>
             <Text>{itemPrice} kn</Text>
             <Text>{itemCode}</Text>
@@ -156,6 +156,9 @@ export const MenuItem: FC<Props> = ({
               onClick={startEdit}
               aria-label='Edit menu item'
               icon={<EditIcon />}
+              color='white'
+              bg='accent'
+              _hover={{ bg: 'white', color: 'accent' }}
             />
             <IconButton
               w='45%'
@@ -163,6 +166,9 @@ export const MenuItem: FC<Props> = ({
               onClick={deleteMenuItem}
               aria-label='Delete item'
               icon={<DeleteIcon />}
+              color='white'
+              bg='accent'
+              _hover={{ bg: 'white', color: 'accent' }}
             />
           </Box>
           <Divider marginTop={2} />
@@ -174,12 +180,14 @@ export const MenuItem: FC<Props> = ({
             marginBottom={2}
             placeholder={itemName}
             onChange={nameChange}
+            color='white'
           />
           <NumberInput
             defaultValue={itemPrice}
             marginBottom={2}
             onChange={priceChange}
             min={1}
+            color='white'
           >
             <NumberInputField placeholder={itemPrice.toString()} />
             <NumberInputStepper>
@@ -192,6 +200,7 @@ export const MenuItem: FC<Props> = ({
             marginBottom={2}
             placeholder={itemCode}
             onChange={codeChange}
+            color='white'
           />
           <Box>
             <IconButton
@@ -201,6 +210,9 @@ export const MenuItem: FC<Props> = ({
               onClick={onSubmit}
               aria-label='Submit update'
               icon={<CheckIcon />}
+              color='white'
+              bg='accent'
+              _hover={{ bg: 'white', color: 'accent' }}
             />
             <IconButton
               w='45%'
@@ -208,6 +220,9 @@ export const MenuItem: FC<Props> = ({
               onClick={onEditCancel}
               aria-label='Cancel update'
               icon={<CloseIcon />}
+              color='white'
+              bg='accent'
+              _hover={{ bg: 'white', color: 'accent' }}
             />
           </Box>
           <Divider marginTop={2} />

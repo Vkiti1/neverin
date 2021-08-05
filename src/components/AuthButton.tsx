@@ -37,6 +37,8 @@ export const AuthButton: FC<Props> = ({ email, password, variant }) => {
       isLoading={isLoading}
       variant={variant}
       onClick={handler}
+      color='white'
+      _hover={{ bg: 'white', color: 'text' }}
     >
       {user ? 'Sign out' : 'Sign in'}
     </Button>

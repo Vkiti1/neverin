@@ -44,7 +44,13 @@ export const AdminMenu: FC<Props> = ({ shopId }) => {
   return (
     <>
       <NewItem menu={menu} menuUpdate={menuUpdate} shopId={shopId} />
-      <Select mt={8} mb={2} placeholder='Select category'>
+      <Select
+        mt={8}
+        mb={2}
+        placeholder='Select category'
+        color='white'
+        _focus={{ color: 'accent' }}
+      >
         {menu.map((category, i) => {
           return (
             <option

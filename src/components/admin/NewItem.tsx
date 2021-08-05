@@ -38,27 +38,25 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
     setCode('')
     setImage(null)
     setMode('read')
+    setCategoryName('')
+    setCategoryIndex(0)
   }
 
   const onItemSubmit: MouseEventHandler<HTMLButtonElement> = async () => {
-    if (
-      categoryName === '' ||
-      categoryName == null ||
-      typeof categoryName === 'undefined'
-    ) {
-      console.log('you need to select a category')
+    if (categoryName === '') {
+      alert('You need to select a category.')
       return
     }
-    if (name === '' || name == null || typeof name === 'undefined') {
-      console.log('item name needs to be defined')
+    if (name === '') {
+      alert('Item name needs to be defined.')
       return
     }
-    if (price === 0 || price == null) {
-      console.log('price needs to be a number')
+    if (price === 0 || price === NaN || price == null) {
+      alert('Price needs to be a number.')
       return
     }
-    if (code === '' || code == null || typeof code === 'undefined') {
-      console.log('code needs to be defined')
+    if (code === '') {
+      alert('Code needs to be defined')
       return
     }
 
@@ -129,6 +127,8 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
             marginBottom={2}
             isRequired
             placeholder='Type of drink'
+            color='white'
+            _focus={{ color: 'accent' }}
           >
             {menu.map((category, i) => {
               return (
@@ -149,12 +149,14 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
             marginBottom={2}
             onChange={nameChange}
             placeholder='Item name'
+            color='white'
           ></Input>
           <NumberInput
             marginBottom={2}
             onChange={priceChange}
             placeholder='Item price'
             min={1}
+            color='white'
           >
             <NumberInputField />
             <NumberInputStepper>
@@ -166,6 +168,7 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
             marginBottom={2}
             onChange={codeChange}
             placeholder='Item code'
+            color='white'
           ></Input>
           <>
             <Button
@@ -173,6 +176,8 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
               mb={2}
               variant='ghost'
               onClick={() => document.getElementById('file').click()}
+              color='white'
+              _hover={{ bg: 'white', color: 'accent' }}
             >
               <Input
                 id='file'
@@ -193,6 +198,9 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
               onClick={onItemSubmit}
               aria-label='Submit'
               icon={<CheckIcon />}
+              color='white'
+              bg='accent'
+              _hover={{ bg: 'white', color: 'accent' }}
             />
             <IconButton
               w='45%'
@@ -200,18 +208,24 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
               onClick={onItemCancel}
               aria-label='Cancel'
               icon={<CloseIcon />}
+              color='white'
+              bg='accent'
+              _hover={{ bg: 'white', color: 'accent' }}
             />
           </Box>
         </>
       ) : (
         <Flex justifyContent='space-between'>
-          <Text fontSize='1.2rem' alignSelf='center'>
+          <Text fontSize='1.2rem' alignSelf='center' color='white'>
             Add item
           </Text>
           <IconButton
             onClick={() => setMode('write')}
             aria-label='Add new item'
             icon={<AddIcon />}
+            bg='accent'
+            color='white'
+            _hover={{ bg: 'white', color: 'accent' }}
           />
         </Flex>
       )}

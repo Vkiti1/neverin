@@ -11,6 +11,9 @@ export const AuthProvider: FC = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
+      await firebase
+        .auth()
+        .setPersistence(firebase.auth.Auth.Persistence.SESSION)
       const newUser = await firebaseInstance
         .auth()
         .signInWithEmailAndPassword(email, password)

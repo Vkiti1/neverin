@@ -16,7 +16,7 @@ export const Cart: FC = () => {
   } = useReceipts()
   return (
     <>
-      <Grid templateColumns='repeat(3,1fr)' autoRows='auto'>
+      <Grid color='white' templateColumns='repeat(3,1fr)' autoRows='auto'>
         <GridItem>Item</GridItem>
         <GridItem>Quantity</GridItem>
         <GridItem>Price</GridItem>
@@ -32,6 +32,9 @@ export const Cart: FC = () => {
                   size='sm'
                   aria-label='Quantity plus'
                   icon={<AddIcon />}
+                  color='white'
+                  bg='accent'
+                  _active={{ color: 'accent', bg: 'white' }}
                 />
                 <IconButton
                   onClick={() => decreaseQuantity(i)}
@@ -39,6 +42,9 @@ export const Cart: FC = () => {
                   size='sm'
                   aria-label='Quantity minus'
                   icon={<MinusIcon />}
+                  color='white'
+                  bg='accent'
+                  _active={{ color: 'accent', bg: 'white' }}
                 />
               </GridItem>
               <GridItem>{item.price.toFixed(2)}</GridItem>
@@ -64,12 +70,18 @@ export const Cart: FC = () => {
           m={2}
           aria-label='Submit order'
           icon={<CheckIcon />}
+          color='white'
+          bg='accent'
+          _active={{ color: 'accent', bg: 'white' }}
         />
         <IconButton
           onClick={cancelGuestOrder}
           m={2}
           aria-label='Cancel order'
           icon={<CloseIcon />}
+          color='white'
+          bg='accent'
+          _active={{ color: 'accent', bg: 'white' }}
         />
       </GridItem>
     </>

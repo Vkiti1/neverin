@@ -16,12 +16,14 @@ export const GuestMenuItem: FC<Props> = ({ itemPrice, imageUrl, itemName }) => {
 
   useEffect(() => {
     const getImage = async () => {
-      const imageSrc = await firebaseInstance
-        .storage()
-        .ref()
-        .child(imageUrl)
-        .getDownloadURL()
-      setImageSrc(imageSrc)
+      if (imageUrl !== '') {
+        const imageSrc = await firebaseInstance
+          .storage()
+          .ref()
+          .child(imageUrl)
+          .getDownloadURL()
+        setImageSrc(imageSrc)
+      }
     }
 
     getImage()

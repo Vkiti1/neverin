@@ -24,6 +24,7 @@ const theme = extendTheme({
       'html, body': {
         overflowX: 'hidden',
         backgroundColor: 'white',
+        minHeight: '100vh',
       },
     },
   },

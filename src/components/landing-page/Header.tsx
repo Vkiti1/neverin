@@ -8,8 +8,9 @@ export const Header: FC = () => {
     <Flex p={4} bg='accent' as='header' w='100%' justifyContent='flex-end'>
       <Button
         fontSize='xl'
-        bg='background'
-        color='text'
+        bg='accent'
+        color='white'
+        _hover={{ bg: 'white', color: 'text' }}
         onClick={() => router.push('/login')}
       >
         Login

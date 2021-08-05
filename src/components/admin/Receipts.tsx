@@ -6,7 +6,7 @@ export const Receipts: FC = () => {
   const { receipts } = useReceipts()
 
   return (
-    <Flex direction='column' fontSize='lg'>
+    <Flex color='white' direction='column' fontSize='lg'>
       {receipts
         .sort((a, b) => b.timestamp.getDate() - a.timestamp.getDate())
         .map((receipt) => {

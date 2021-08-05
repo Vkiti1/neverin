@@ -77,7 +77,7 @@ export const Header: FC<Props> = ({ shopName }) => {
   return (
     <Flex as='header' alignItems='center' p={4} bg='accent'>
       <Box>
-        <Heading>{shopName}</Heading>
+        <Heading color='white'>{shopName}</Heading>
       </Box>
       <Box ml='auto'>
         <Popover>
@@ -94,14 +94,20 @@ export const Header: FC<Props> = ({ shopName }) => {
           </PopoverTrigger>
           <PopoverContent bg='accent'>
             <PopoverArrow />
-            <PopoverCloseButton />
-            <PopoverHeader>Notifications</PopoverHeader>
+            <PopoverCloseButton color='white' />
+            <PopoverHeader color='white'>Notifications</PopoverHeader>
             <PopoverBody>
               <Notifications />
             </PopoverBody>
           </PopoverContent>
         </Popover>
-        <Button variant='ghost' size='lg' onClick={openDrawer}>
+        <Button
+          variant='ghost'
+          size='lg'
+          color='white'
+          onClick={openDrawer}
+          _hover={{ bg: 'white', color: 'text' }}
+        >
           Receipts
         </Button>
         <Drawer
@@ -112,22 +118,28 @@ export const Header: FC<Props> = ({ shopName }) => {
         >
           <DrawerOverlay />
           <DrawerContent bg='accent'>
-            <DrawerCloseButton />
-            <DrawerHeader>Receipts</DrawerHeader>
+            <DrawerCloseButton color='white' />
+            <DrawerHeader color='white'>Receipts</DrawerHeader>
             <DrawerBody>
               <Receipts />
             </DrawerBody>
           </DrawerContent>
         </Drawer>
 
-        <Button variant='ghost' size='lg' onClick={openModal}>
+        <Button
+          variant='ghost'
+          size='lg'
+          color='white'
+          onClick={openModal}
+          _hover={{ bg: 'white', color: 'text' }}
+        >
           Menu
         </Button>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <ModalOverlay />
           <ModalContent bg='accent'>
-            <ModalHeader>Menu</ModalHeader>
-            <ModalCloseButton />
+            <ModalHeader color='white'>Menu</ModalHeader>
+            <ModalCloseButton color='white' />
             <ModalBody>
               <AdminMenu shopId={shopId} />
             </ModalBody>
