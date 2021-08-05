@@ -31,7 +31,13 @@ export const AuthButton: FC<Props> = ({ email, password, variant }) => {
   }, [])
 
   return (
-    <Button isLoading={isLoading} variant={variant} onClick={handler}>
+    <Button
+      bg='accent'
+      size='lg'
+      isLoading={isLoading}
+      variant={variant}
+      onClick={handler}
+    >
       {user ? 'Sign out' : 'Sign in'}
     </Button>
   )

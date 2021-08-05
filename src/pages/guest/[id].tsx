@@ -6,6 +6,7 @@ import { useAuth } from 'context/auth'
 import { useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { useRouter } from 'next/router'
+import { Box } from '@chakra-ui/react'
 
 interface Props {
   shopId: string

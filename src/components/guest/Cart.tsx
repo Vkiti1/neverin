@@ -48,7 +48,7 @@ export const Cart: FC = () => {
       </Grid>
       <GridItem>
         Note for the waiter:
-        <Input onChange={addNote} type='text' value={note}></Input>
+        <Input onChange={addNote} type='text' value={note} />
       </GridItem>
       <GridItem>
         Total:{' '}

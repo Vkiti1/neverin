@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Grid, Heading, Divider, GridItem } from '@chakra-ui/react'
+import { Heading } from '@chakra-ui/react'
 import { useReceipts } from 'context/receipts'
 import { Flex } from '@chakra-ui/layout'
 import { Order } from 'components/admin/Order'
@@ -8,13 +8,21 @@ export const Orders: FC = () => {
   const { orders } = useReceipts()
 
   return (
-    <Grid templateColumns='1fr 2px 1fr'>
-      <Flex direction='column'>
+    <Flex w='100%'>
+      <Flex
+        borderRight='1px solid'
+        borderColor='text'
+        w='100%'
+        direction='column'
+        alignItems='center'
+      >
         <Heading
-          borderBottom='2px solid white'
-          alignSelf='center'
-          fontSize='1.7rem'
+          mt={10}
+          borderBottom='2px solid'
+          borderColor='text'
+          fontSize='4xl'
           fontWeight='600'
+          color='text'
         >
           New orders
         </Heading>
@@ -24,13 +32,15 @@ export const Orders: FC = () => {
             return !order.isServed && <Order key={order.id} order={order} />
           })}
       </Flex>
-      <GridItem colStart={2} backgroundColor='white' />
-      <Flex direction='column'>
+      <Flex w='100%' direction='column' alignItems='center'>
         <Heading
-          borderBottom='2px solid white'
+          mt={10}
+          borderBottom='2px solid '
+          borderColor='text'
           alignSelf='center'
-          fontSize='1.7rem'
+          fontSize='4xl'
           fontWeight='600'
+          color='text'
         >
           Served orders
         </Heading>
@@ -40,6 +50,6 @@ export const Orders: FC = () => {
             return order.isServed && <Order key={order.id} order={order} />
           })}
       </Flex>
-    </Grid>
+    </Flex>
   )
 }

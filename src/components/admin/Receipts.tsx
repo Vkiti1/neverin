@@ -24,13 +24,16 @@ export const Receipts: FC = () => {
               </GridItem>
               <GridItem colSpan={3}>Table: {receipt.table}</GridItem>
               <GridItem colSpan={3}>Note: {receipt.note}</GridItem>
+              <GridItem colStart={1}>Item</GridItem>
+              <GridItem colStart={2}>Quantity</GridItem>
+              <GridItem colStart={3}>Price</GridItem>
               <GridItem colSpan={3}>
                 {receipt.order.map((item) => {
                   return (
-                    <Grid templateColumns='repeat(3,1fr)'>
-                      <GridItem>Item: {item.name}</GridItem>
-                      <GridItem>Quantity: {item.quantity}</GridItem>
-                      <GridItem>Price: {item.price.toFixed(2)}</GridItem>
+                    <Grid ml={4} templateColumns='repeat(3,1fr)'>
+                      <GridItem>{item.name}</GridItem>
+                      <GridItem>{item.quantity}</GridItem>
+                      <GridItem>{item.price.toFixed(2)}</GridItem>
                     </Grid>
                   )
                 })}

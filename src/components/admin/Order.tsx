@@ -14,49 +14,83 @@ export const Order: FC<Props> = ({ order }) => {
 
   return (
     <Grid
-      maxHeight='400px'
+      width='90%'
       templateColumns='repeat(3,1fr)'
       autoRows='auto'
+      borderBottom='2px solid'
+      borderColor='text'
+      my={5}
       gap={2}
-      borderBottom='2px solid lightgray'
-      p={4}
+      color='text'
+      py={2}
     >
-      <GridItem colSpan={3}>Table: {order.table}</GridItem>
-      <GridItem colSpan={3}>Note: {order.note}</GridItem>
-      <GridItem colStart={1}>Item</GridItem>
-      <GridItem colStart={2}>Quantity</GridItem>
-      <GridItem colStart={3}>Price</GridItem>
+      <GridItem fontSize='xl' colSpan={3}>
+        Table: {order.table}
+      </GridItem>
+      <GridItem colSpan={3} fontSize='xl'>
+        Note: {order.note}
+      </GridItem>
+      <GridItem colStart={1} fontSize='xl'>
+        Item
+      </GridItem>
+      <GridItem colStart={2} fontSize='xl'>
+        Quantity
+      </GridItem>
+      <GridItem colStart={3} fontSize='xl'>
+        Price
+      </GridItem>
       <GridItem colSpan={3}>
         {order.order.map((item) => {
           return (
-            <Grid ml={6} key={order.id} templateColumns='repeat(3,1fr)'>
-              <GridItem colStart={1}>{item.name}</GridItem>
-              <GridItem colStart={2}>{item.quantity}</GridItem>
-              <GridItem colStart={3}>{item.price.toFixed(2)}</GridItem>
+            <Grid ml={4} key={item.name} templateColumns='repeat(3,1fr)'>
+              <GridItem fontSize='xl' colStart={1}>
+                {item.name}
+              </GridItem>
+              <GridItem fontSize='xl' colStart={2}>
+                {item.quantity}
+              </GridItem>
+              <GridItem colStart={3} fontSize='xl'>
+                {item.price.toFixed(2)}
+              </GridItem>
             </Grid>
           )
         })}
       </GridItem>
-      <GridItem colStart={1}>Total: {order.total.toFixed(2)}</GridItem>
-      <GridItem colStart={3}>
+      <GridItem fontSize='xl' colStart={1}>
+        Total: {order.total.toFixed(2)}
+      </GridItem>
+      <GridItem colStart={3} fontSize='xl'>
         {order.isServed ? (
           <IconButton
             aria-label='Is order paid?'
             onClick={() => updateOrder(order.id)}
+            fontSize='2xl'
+            border='2px solid rgba(79, 79, 79, 0)'
+            _hover={{ border: '2px solid rgba(79, 79, 79, 1)' }}
+            transition='0.15s all ease-in'
             icon={<CheckIcon />}
           ></IconButton>
         ) : (
           <>
             <IconButton
               aria-label='Order served'
+              fontSize='2xl'
               onClick={() => serveOrder(order.id)}
               icon={<ArrowForwardIcon />}
+              border='2px solid rgba(79, 79, 79, 0)'
+              _hover={{ border: '2px solid rgba(79, 79, 79, 1)' }}
+              transition='0.15s all ease-in'
             ></IconButton>
             <IconButton
               ml={4}
               onClick={() => deleteOrder(order.id)}
+              fontSize='2xl'
               aria-label='Delete order'
+              size='lg'
               icon={<DeleteIcon />}
+              border='2px solid rgba(79, 79, 79, 0)'
+              _hover={{ border: '2px solid rgba(79, 79, 79, 1)' }}
+              transition='0.15s all ease-in'
             ></IconButton>
           </>
         )}

@@ -43,7 +43,7 @@ export const Notifications: FC = () => {
   return (
     <>
       {notifications.map((notification) => (
-        <Box key={notification.id}>
+        <Box key={notification.id} display='flex'>
           <Text>
             Table number {notification.table} needs waiter assistance.
           </Text>

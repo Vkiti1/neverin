@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { useFirebase } from 'context/firebase-instance'
-import { Box, Img, Text } from '@chakra-ui/react'
+import { Box, Img, Text, Flex } from '@chakra-ui/react'
 import { useReceipts } from 'context/receipts'
 
 interface Props {
@@ -30,20 +30,31 @@ export const GuestMenuItem: FC<Props> = ({ itemPrice, imageUrl, itemName }) => {
   return (
     <>
       <Box
-        w='150px'
-        h='150px'
+        minHeight='200px'
         p={4}
         onClick={() => addGuestOrder(itemPrice, itemName)}
-        transition='0.2s ease all'
-        borderRadius='5px'
-        _active={{ border: '5px solid gray', width: '160px', height: '160px' }}
+        boxShadow='lg'
+        border='1px solid lightgray'
+        textAlign='center'
+        bg='#fff'
       >
         {imageSrc && (
-          <Img loading='lazy' w='100%' height='90%' src={imageSrc} />
+          <Img
+            loading='lazy'
+            width='120px'
+            height='120px'
+            objectFit='cover'
+            src={imageSrc}
+          />
         )}
-        <Text>
-          {itemName} {itemPrice} kn{' '}
-        </Text>
+        <Flex direction='column' mt={2}>
+          <Text color='text' fontSize='lg' fontWeight='600'>
+            {itemName}
+          </Text>
+          <Text color='text' fontSize='md'>
+            {itemPrice} kn
+          </Text>
+        </Flex>
       </Box>
     </>
   )

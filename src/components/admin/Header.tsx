@@ -75,7 +75,7 @@ export const Header: FC<Props> = ({ shopName }) => {
     return () => unsubscribe()
   }, [])
   return (
-    <Flex as='header' alignItems='center' p={4}>
+    <Flex as='header' alignItems='center' p={4} bg='accent'>
       <Box>
         <Heading>{shopName}</Heading>
       </Box>
@@ -87,10 +87,12 @@ export const Header: FC<Props> = ({ shopName }) => {
               aria-label='notification button'
               onClick={() => setNotify(false)}
               bg={notify ? 'red' : 'gray'}
-              color='white'
+              fontSize='xl'
+              size='lg'
+              mr={4}
             />
           </PopoverTrigger>
-          <PopoverContent>
+          <PopoverContent bg='accent'>
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader>Notifications</PopoverHeader>
@@ -99,7 +101,7 @@ export const Header: FC<Props> = ({ shopName }) => {
             </PopoverBody>
           </PopoverContent>
         </Popover>
-        <Button variant='ghost' onClick={openDrawer}>
+        <Button variant='ghost' size='lg' onClick={openDrawer}>
           Receipts
         </Button>
         <Drawer
@@ -109,7 +111,7 @@ export const Header: FC<Props> = ({ shopName }) => {
           onClose={closeDrawer}
         >
           <DrawerOverlay />
-          <DrawerContent>
+          <DrawerContent bg='accent'>
             <DrawerCloseButton />
             <DrawerHeader>Receipts</DrawerHeader>
             <DrawerBody>
@@ -118,12 +120,12 @@ export const Header: FC<Props> = ({ shopName }) => {
           </DrawerContent>
         </Drawer>
 
-        <Button variant='ghost' onClick={openModal}>
+        <Button variant='ghost' size='lg' onClick={openModal}>
           Menu
         </Button>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <ModalOverlay />
-          <ModalContent>
+          <ModalContent bg='accent'>
             <ModalHeader>Menu</ModalHeader>
             <ModalCloseButton />
             <ModalBody>

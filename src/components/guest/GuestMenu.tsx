@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Category, Items } from 'types/index'
-import { Box, Heading, Grid, GridItem } from '@chakra-ui/react'
+import { Box, Heading, SimpleGrid, GridItem } from '@chakra-ui/react'
 import { GuestMenuItem } from 'components/guest/GuestMenuItem'
 import { formatCategoryName } from 'util/helpers'
 
@@ -35,25 +35,25 @@ export const GuestMenu: FC<Props> = ({ shopId }) => {
     <>
       {menu.map((category) => {
         return (
-          <Box key={category.name}>
-            <Heading textAlign='center'>
+          <Box key={category.name} width='90%' mx='auto' py={4}>
+            <Heading color='text' fontSize='4xl' my='25px' textAlign='center'>
               {formatCategoryName(category.name)}
             </Heading>
-            <Grid templateColumns='repeat(2, 1fr)' autoRows='auto'>
+            <SimpleGrid columns={2} spacingY='20px' placeItems='center'>
               {Object.entries(category.items).map(
                 ([itemName, itemProperties]) => {
                   return (
-                    <GridItem key={itemName} textAlign='center' m='10px auto'>
+                    <Box key={itemName}>
                       <GuestMenuItem
                         itemName={itemName}
                         itemPrice={itemProperties.price}
                         imageUrl={itemProperties.image}
                       />
-                    </GridItem>
+                    </Box>
                   )
                 }
               )}
-            </Grid>
+            </SimpleGrid>
           </Box>
         )
       })}

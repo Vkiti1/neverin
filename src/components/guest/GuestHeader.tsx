@@ -43,11 +43,27 @@ export const GuestHeader: FC = () => {
   }
 
   return (
-    <Flex as='header' p={2} justifyContent='flex-end'>
-      <Button bg='green' onClick={callAWaiter}>
+    <Flex
+      backgroundColor='theme.colors.header'
+      as='header'
+      p={4}
+      justifyContent='space-between'
+      bg='accent'
+      position='sticky'
+      top='0'
+    >
+      <Button
+        bg='gray.100'
+        size='lg'
+        onClick={callAWaiter}
+        variant='ghost'
+        color='text'
+        fontWeight='400'
+      >
         Call a waiter
       </Button>
       <IconButton
+        color='white'
         size='lg'
         aria-label='Guest cart'
         variant='ghost'
@@ -56,7 +72,7 @@ export const GuestHeader: FC = () => {
         icon={<FiShoppingCart size={40} />}
       ></IconButton>
       <Drawer
-        size='md'
+        size='full'
         isOpen={isDrawerOpen}
         placement='right'
         onClose={closeDrawer}
