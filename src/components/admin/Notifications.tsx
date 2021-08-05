@@ -44,12 +44,13 @@ export const Notifications: FC = () => {
     <>
       {notifications.map((notification) => (
         <Box key={notification.id} display='flex'>
-          <Text>
+          <Text color='white'>
             Table number {notification.table} needs waiter assistance.
           </Text>
           <IconButton
             aria-label='clear notification'
             icon={<AiOutlineCheckCircle />}
+            fontSize='2xl'
             onClick={() => deleteNotification(notification.id)}
           />
         </Box>
