@@ -51,7 +51,7 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
       alert('Item name needs to be defined.')
       return
     }
-    if (price === 0 || price === NaN || price == null) {
+    if (price === 0 || isNaN(price) || price == null) {
       alert('Price needs to be a number.')
       return
     }

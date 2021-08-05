@@ -98,16 +98,16 @@ export const MenuItem: FC<Props> = ({
   }
 
   const onSubmit: MouseEventHandler<HTMLButtonElement> = async () => {
-    if (name === '' || name == null || typeof name === 'undefined') {
-      console.log('item name needs to be defined')
+    if (name === '') {
+      alert('Item name needs to be defined.')
       return
     }
-    if (price === 0 || price == null) {
-      console.log('price needs to be a number')
+    if (price === 0 || isNaN(price) || price == null) {
+      alert('Price needs to be a number.')
       return
     }
-    if (code === '' || code == null || typeof code === 'undefined') {
-      console.log('code needs to be defined')
+    if (code === '') {
+      alert('Code needs to be defined.')
       return
     }
     try {
