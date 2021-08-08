@@ -16,10 +16,16 @@ export const Cart: FC = () => {
   } = useReceipts()
   return (
     <>
-      <Grid color='white' templateColumns='repeat(3,1fr)' autoRows='auto'>
-        <GridItem>Item</GridItem>
-        <GridItem>Quantity</GridItem>
-        <GridItem>Price</GridItem>
+      <Grid
+        color='white'
+        templateColumns='repeat(3,1fr)'
+        autoRows='auto'
+        alignItems='center'
+        rowGap={2}
+      >
+        <GridItem fontSize='lg'>Item</GridItem>
+        <GridItem fontSize='lg'>Quantity</GridItem>
+        <GridItem fontSize='lg'>Price</GridItem>
         {guestOrder.map((item, i) => {
           return (
             <>
@@ -47,43 +53,46 @@ export const Cart: FC = () => {
                   _active={{ color: 'accent', bg: 'white' }}
                 />
               </GridItem>
-              <GridItem>{item.price.toFixed(2)}</GridItem>
+              <GridItem>{item.price.toFixed(2)} kn</GridItem>
             </>
           )
         })}
+
+        <GridItem colSpan={3}>
+          Note for the waiter:
+          <Input colSpan={3} onChange={addNote} type='text' value={note} />
+        </GridItem>
+        <GridItem colSpan={3} fontSize='lg'>
+          Total:{' '}
+          {guestOrder
+            .reduce((acc, curr) => {
+              return acc + curr.price * curr.quantity
+            }, 0)
+            .toFixed(2)}
+        </GridItem>
+        <GridItem colSpan={3}>
+          <IconButton
+            w='45%'
+            onClick={submitGuestOrder}
+            m={2}
+            aria-label='Submit order'
+            icon={<CheckIcon />}
+            color='white'
+            bg='background'
+            _active={{ color: 'accent', bg: 'white' }}
+          />
+          <IconButton
+            w='45%'
+            onClick={cancelGuestOrder}
+            m={2}
+            aria-label='Cancel order'
+            icon={<CloseIcon />}
+            color='white'
+            bg='background'
+            _active={{ color: 'accent', bg: 'white' }}
+          />
+        </GridItem>
       </Grid>
-      <GridItem>
-        Note for the waiter:
-        <Input onChange={addNote} type='text' value={note} />
-      </GridItem>
-      <GridItem>
-        Total:{' '}
-        {guestOrder
-          .reduce((acc, curr) => {
-            return acc + curr.price * curr.quantity
-          }, 0)
-          .toFixed(2)}
-      </GridItem>
-      <GridItem>
-        <IconButton
-          onClick={submitGuestOrder}
-          m={2}
-          aria-label='Submit order'
-          icon={<CheckIcon />}
-          color='white'
-          bg='accent'
-          _active={{ color: 'accent', bg: 'white' }}
-        />
-        <IconButton
-          onClick={cancelGuestOrder}
-          m={2}
-          aria-label='Cancel order'
-          icon={<CloseIcon />}
-          color='white'
-          bg='accent'
-          _active={{ color: 'accent', bg: 'white' }}
-        />
-      </GridItem>
     </>
   )
 }

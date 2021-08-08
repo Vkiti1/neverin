@@ -86,6 +86,7 @@ export const Header: FC<Props> = ({ shopName }) => {
               icon={<GrNotification />}
               aria-label='notification button'
               onClick={() => setNotify(false)}
+              color='white'
               bg={notify ? 'red' : 'gray'}
               fontSize='xl'
               size='lg'
@@ -107,6 +108,7 @@ export const Header: FC<Props> = ({ shopName }) => {
           color='white'
           onClick={openDrawer}
           _hover={{ bg: 'white', color: 'text' }}
+          mr={2}
         >
           Receipts
         </Button>
@@ -132,6 +134,7 @@ export const Header: FC<Props> = ({ shopName }) => {
           color='white'
           onClick={openModal}
           _hover={{ bg: 'white', color: 'text' }}
+          mr={2}
         >
           Menu
         </Button>

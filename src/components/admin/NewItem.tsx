@@ -122,14 +122,7 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
     <div>
       {mode === 'write' ? (
         <>
-          <Select
-            marginTop={2}
-            marginBottom={2}
-            isRequired
-            placeholder='Type of drink'
-            color='white'
-            _focus={{ color: 'accent' }}
-          >
+          <Select variant='primary' my={2} placeholder='Select type of drink'>
             {menu.map((category, i) => {
               return (
                 <option
@@ -138,9 +131,9 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
                     setCategoryIndex(i)
                     setCategoryName(category.name)
                   }}
-                  value={formatCategoryName(category.name)}
+                  value={category.name}
                 >
-                  {category.name}
+                  {formatCategoryName(category.name)}
                 </option>
               )
             })}
@@ -198,9 +191,9 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
               onClick={onItemSubmit}
               aria-label='Submit'
               icon={<CheckIcon />}
-              color='white'
-              bg='accent'
-              _hover={{ bg: 'white', color: 'accent' }}
+              color='accent'
+              bg='background'
+              _hover={{ bg: 'white' }}
             />
             <IconButton
               w='45%'
@@ -208,9 +201,9 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
               onClick={onItemCancel}
               aria-label='Cancel'
               icon={<CloseIcon />}
-              color='white'
-              bg='accent'
-              _hover={{ bg: 'white', color: 'accent' }}
+              color='accent'
+              bg='background'
+              _hover={{ bg: 'white' }}
             />
           </Box>
         </>

@@ -47,9 +47,8 @@ export const AdminMenu: FC<Props> = ({ shopId }) => {
       <Select
         mt={8}
         mb={2}
-        placeholder='Select category'
-        color='white'
-        _focus={{ color: 'accent' }}
+        variant='primary'
+        placeholder='Select type of drink'
       >
         {menu.map((category, i) => {
           return (
