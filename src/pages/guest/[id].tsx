@@ -15,7 +15,7 @@ interface Props {
 }
 const GuestPage: NextPage<Props> = ({ shopId, table, location }) => {
   const { loginAnonymously } = useAuth()
-  const [shouldLoad, setShouldLoad] = useState<boolean>(true) //TODO: vrati na false
+  const [shouldLoad, setShouldLoad] = useState<boolean>(false) //TODO: vrati na false
   const router = useRouter()
 
   useEffect(() => {
@@ -24,59 +24,59 @@ const GuestPage: NextPage<Props> = ({ shopId, table, location }) => {
       router.push('/')
     }
 
-    // const signIn = async () => {
-    //   await loginAnonymously()
-    //   setShouldLoad(true)
-    // }
+    const signIn = async () => {
+      await loginAnonymously()
+      setShouldLoad(true)
+    }
 
-    // const checkLocation = () => {
-    //   alert(
-    //     'To use this service we need to know your location to prevent malicious use'
-    //   )
-    //   const onSuccess: PositionCallback = (e) => {
-    //     function getDistanceFromLatLonInM(lat1, lon1, lat2, lon2) {
-    //       var R = 6371 // Radius of the earth in km
-    //       var dLat = deg2rad(lat2 - lat1) // deg2rad below
-    //       var dLon = deg2rad(lon2 - lon1)
-    //       var a =
-    //         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    //         Math.cos(deg2rad(lat1)) *
-    //           Math.cos(deg2rad(lat2)) *
-    //           Math.sin(dLon / 2) *
-    //           Math.sin(dLon / 2)
-    //       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    //       var d = R * c * 1000 // Distance in m
-    //       return d
-    //     }
+    const checkLocation = () => {
+      alert(
+        'To use this service we need to know your location to prevent malicious use'
+      )
+      const onSuccess: PositionCallback = (e) => {
+        function getDistanceFromLatLonInM(lat1, lon1, lat2, lon2) {
+          var R = 6371 // Radius of the earth in km
+          var dLat = deg2rad(lat2 - lat1) // deg2rad below
+          var dLon = deg2rad(lon2 - lon1)
+          var a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(deg2rad(lat1)) *
+              Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon / 2) *
+              Math.sin(dLon / 2)
+          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+          var d = R * c * 1000 // Distance in m
+          return d
+        }
 
-    //     function deg2rad(deg) {
-    //       return deg * (Math.PI / 180)
-    //     }
-    //     if (
-    //       getDistanceFromLatLonInM(
-    //         location.lat,
-    //         location.long,
-    //         e.coords.latitude,
-    //         e.coords.longitude
-    //       ) <= 50
-    //     ) {
-    //       signIn()
-    //     } else {
-    //       alert('You must be in the shop to use this service')
-    //       router.push('/')
-    //     }
-    //   }
+        function deg2rad(deg) {
+          return deg * (Math.PI / 180)
+        }
+        if (
+          getDistanceFromLatLonInM(
+            location.lat,
+            location.long,
+            e.coords.latitude,
+            e.coords.longitude
+          ) <= 50000
+        ) {
+          signIn()
+        } else {
+          alert('You must be in the shop to use this service')
+          router.push('/')
+        }
+      }
 
-    //   const onError = () => {
-    //     alert(
-    //       'To use this service you must enable location features. If you enabled location features and cannot access the web page please try again.'
-    //     )
-    //     router.push('/')
-    //   }
-    //   navigator.geolocation.getCurrentPosition(onSuccess, onError)
-    // }
+      const onError = () => {
+        alert(
+          'To use this service you must enable location features. If you enabled location features and cannot access the web page please try again.'
+        )
+        router.push('/')
+      }
+      navigator.geolocation.getCurrentPosition(onSuccess, onError)
+    }
 
-    // checkLocation()
+    checkLocation()
   }, [])
 
   return shouldLoad ? (

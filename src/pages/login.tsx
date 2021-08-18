@@ -3,7 +3,7 @@ import { FormControl, FormLabel } from '@chakra-ui/form-control'
 import { Input } from '@chakra-ui/input'
 import { ChangeEventHandler, useState } from 'react'
 import { AuthButton } from 'components/AuthButton'
-import { Box, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 
 const Login: NextPage = () => {
   const [email, setEmail] = useState('')
