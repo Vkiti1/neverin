@@ -6,7 +6,6 @@ import { useAuth } from 'context/auth'
 import { useEffect, useState } from 'react'
 import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { useRouter } from 'next/router'
-import { Box } from '@chakra-ui/react'
 
 interface Props {
   shopId: string
@@ -15,7 +14,7 @@ interface Props {
 }
 const GuestPage: NextPage<Props> = ({ shopId, table, location }) => {
   const { loginAnonymously } = useAuth()
-  const [shouldLoad, setShouldLoad] = useState<boolean>(false) //TODO: vrati na false
+  const [shouldLoad, setShouldLoad] = useState<boolean>(false)
   const router = useRouter()
 
   useEffect(() => {

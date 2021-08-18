@@ -12,7 +12,7 @@ const HomePage: NextPage = () => {
   const { user } = useAuth()
 
   useEffect(() => {
-    if (user) {
+    if (user && !user.isAnonymous) {
       router.push(`/shop/${user.uid}`)
     }
   }, [user])
