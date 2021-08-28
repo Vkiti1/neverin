@@ -57,7 +57,7 @@ const GuestPage: NextPage<Props> = ({ shopId, table, location }) => {
             location.long,
             e.coords.latitude,
             e.coords.longitude
-          ) <= 50000
+          ) <= 200000
         ) {
           signIn()
         } else {
@@ -95,7 +95,6 @@ interface Params {
 
 interface Query {
   [key: string]: string
-  id: string
   table: string
 }
 
