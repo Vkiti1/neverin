@@ -1,10 +1,14 @@
-import { Grid, GridItem, Input } from '@chakra-ui/react'
+import { Grid, GridItem, Input, Flex } from '@chakra-ui/react'
 import { FC } from 'react'
 import { useReceipts } from 'context/receipts'
 import { IconButton } from '@chakra-ui/react'
 import { AddIcon, MinusIcon, CloseIcon, CheckIcon } from '@chakra-ui/icons'
 
-export const Cart: FC = () => {
+interface Props {
+  closeDrawer: () => void
+}
+
+export const Cart: FC<Props> = ({ closeDrawer }) => {
   const {
     guestOrder,
     increaseQuantity,
@@ -14,6 +18,12 @@ export const Cart: FC = () => {
     addNote,
     note,
   } = useReceipts()
+
+  const handleCloseClick = () => {
+    cancelGuestOrder()
+    closeDrawer()
+  }
+
   return (
     <>
       <Grid
@@ -70,29 +80,29 @@ export const Cart: FC = () => {
             }, 0)
             .toFixed(2)}
         </GridItem>
-        <GridItem colSpan={3}>
-          <IconButton
-            w='45%'
-            onClick={submitGuestOrder}
-            m={2}
-            aria-label='Submit order'
-            icon={<CheckIcon />}
-            color='white'
-            bg='background'
-            _active={{ color: 'accent', bg: 'white' }}
-          />
-          <IconButton
-            w='45%'
-            onClick={cancelGuestOrder}
-            m={2}
-            aria-label='Cancel order'
-            icon={<CloseIcon />}
-            color='white'
-            bg='background'
-            _active={{ color: 'accent', bg: 'white' }}
-          />
-        </GridItem>
       </Grid>
+      <Flex justifyContent='center' w='100%'>
+        <IconButton
+          w='40%'
+          onClick={submitGuestOrder}
+          m={2}
+          aria-label='Submit order'
+          icon={<CheckIcon />}
+          color='white'
+          bg='background'
+          _active={{ color: 'accent', bg: 'white' }}
+        />
+        <IconButton
+          w='40%'
+          onClick={handleCloseClick}
+          m={2}
+          aria-label='Cancel order'
+          icon={<CloseIcon />}
+          color='white'
+          bg='background'
+          _active={{ color: 'accent', bg: 'white' }}
+        />
+      </Flex>
     </>
   )
 }

@@ -72,7 +72,7 @@ export const GuestHeader: FC = () => {
         icon={<FiShoppingCart size={40} />}
       ></IconButton>
       <Drawer
-        size='full'
+        size='md'
         isOpen={isDrawerOpen}
         placement='right'
         onClose={closeDrawer}
@@ -83,7 +83,7 @@ export const GuestHeader: FC = () => {
           <DrawerCloseButton />
           <DrawerHeader>Your order</DrawerHeader>
           <DrawerBody>
-            <Cart />
+            <Cart closeDrawer={closeDrawer} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>
