@@ -138,7 +138,7 @@ export const Header: FC<Props> = ({ shopName }) => {
         >
           Menu
         </Button>
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <Modal isOpen={isModalOpen} onClose={closeModal} size='xl'>
           <ModalOverlay />
           <ModalContent bg='accent'>
             <ModalHeader color='white'>Menu</ModalHeader>

@@ -3,7 +3,7 @@ import { firebaseInstance } from 'util/firebase-server-side-instance'
 import { Flex } from '@chakra-ui/layout'
 import { MenuItem } from 'components/admin/MenuItem'
 import { NewItem } from 'components/admin/NewItem'
-import { Select } from '@chakra-ui/react'
+import { Select, Text } from '@chakra-ui/react'
 import { Category, Items } from 'types/index'
 import { formatCategoryName } from 'util/helpers'
 
@@ -44,8 +44,11 @@ export const AdminMenu: FC<Props> = ({ shopId }) => {
   return (
     <>
       <NewItem menu={menu} menuUpdate={menuUpdate} shopId={shopId} />
+      <Text mt={8} fontSize='lg' color='white'>
+        Items list
+      </Text>
       <Select
-        mt={8}
+        mt={2}
         mb={2}
         variant='primary'
         placeholder='Select type of drink'

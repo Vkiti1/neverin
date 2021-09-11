@@ -42,7 +42,7 @@ export const Order: FC<Props> = ({ order }) => {
       <GridItem colSpan={3}>
         {order.order.map((item) => {
           return (
-            <Grid ml={4} key={item.name} templateColumns='repeat(3,1fr)'>
+            <Grid key={item.name} templateColumns='repeat(3,1fr)' ml={2}>
               <GridItem fontSize='xl' colStart={1}>
                 {item.name}
               </GridItem>

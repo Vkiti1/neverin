@@ -15,8 +15,6 @@ import { Box, Flex } from '@chakra-ui/layout'
 import { Category } from 'types/index'
 import { formatCategoryName } from 'util/helpers'
 
-type Mode = 'read' | 'write'
-
 interface Props {
   menu: Category[]
   menuUpdate: (changedMenu: Category[]) => void
@@ -24,9 +22,8 @@ interface Props {
 }
 
 export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
-  const [mode, setMode] = useState<Mode>('read')
   const [name, setName] = useState<string>('')
-  const [price, setPrice] = useState<number>(null)
+  const [price, setPrice] = useState<number>(0)
   const [code, setCode] = useState<string>('')
   const [image, setImage] = useState<File>(null)
   const [categoryName, setCategoryName] = useState<string>('')
@@ -34,10 +31,9 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
 
   const onItemCancel: MouseEventHandler<HTMLButtonElement> = () => {
     setName('')
-    setPrice(null)
+    setPrice(0)
     setCode('')
     setImage(null)
-    setMode('read')
     setCategoryName('')
     setCategoryIndex(0)
   }
@@ -92,10 +88,9 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
       console.error(err)
     } finally {
       setName('')
-      setPrice(null)
+      setPrice(0)
       setCode('')
       setImage(null)
-      setMode('read')
     }
   }
 
@@ -119,109 +114,96 @@ export const NewItem: FC<Props> = ({ menu, menuUpdate, shopId }) => {
   }
 
   return (
-    <div>
-      {mode === 'write' ? (
-        <>
-          <Select variant='primary' my={2} placeholder='Select type of drink'>
-            {menu.map((category, i) => {
-              return (
-                <option
-                  key={category.name}
-                  onClick={() => {
-                    setCategoryIndex(i)
-                    setCategoryName(category.name)
-                  }}
-                  value={category.name}
-                >
-                  {formatCategoryName(category.name)}
-                </option>
-              )
-            })}
-          </Select>
-          <Input
-            marginBottom={2}
-            onChange={nameChange}
-            placeholder='Item name'
-            color='white'
-          ></Input>
-          <NumberInput
-            marginBottom={2}
-            onChange={priceChange}
-            placeholder='Item price'
-            min={1}
-            color='white'
-          >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-          <Input
-            marginBottom={2}
-            onChange={codeChange}
-            placeholder='Item code'
-            color='white'
-          ></Input>
-          <>
-            <Button
-              mt={2}
-              mb={2}
-              variant='ghost'
-              onClick={() => document.getElementById('file').click()}
-              color='white'
-              _hover={{ bg: 'white', color: 'accent' }}
+    <>
+      <Text color='white' fontSize='lg'>
+        New item
+      </Text>
+      <Select variant='primary' my={2} placeholder='Select type of drink'>
+        {menu.map((category, i) => {
+          return (
+            <option
+              key={category.name}
+              onClick={() => {
+                setCategoryIndex(i)
+                setCategoryName(category.name)
+              }}
+              value={category.name}
             >
-              <Input
-                id='file'
-                type='file'
-                marginBottom={2}
-                placeholder='Image'
-                display='none'
-                onChange={imageChange}
-              />
-              Select Image
-            </Button>
-          </>
-          <Box>
-            <IconButton
-              w='45%'
-              marginLeft={2}
-              marginRight={2}
-              onClick={onItemSubmit}
-              aria-label='Submit'
-              icon={<CheckIcon />}
-              color='accent'
-              bg='background'
-              _hover={{ bg: 'white' }}
-            />
-            <IconButton
-              w='45%'
-              marginLeft={1}
-              onClick={onItemCancel}
-              aria-label='Cancel'
-              icon={<CloseIcon />}
-              color='accent'
-              bg='background'
-              _hover={{ bg: 'white' }}
-            />
-          </Box>
-        </>
-      ) : (
-        <Flex justifyContent='space-between'>
-          <Text fontSize='1.2rem' alignSelf='center' color='white'>
-            Add item
-          </Text>
-          <IconButton
-            onClick={() => setMode('write')}
-            aria-label='Add new item'
-            icon={<AddIcon />}
-            bg='accent'
-            color='white'
-            _hover={{ bg: 'white', color: 'accent' }}
+              {formatCategoryName(category.name)}
+            </option>
+          )
+        })}
+      </Select>
+      <Input
+        marginBottom={2}
+        onChange={nameChange}
+        placeholder='Item name'
+        color='white'
+        value={name}
+      ></Input>
+      <NumberInput
+        marginBottom={2}
+        onChange={priceChange}
+        placeholder='Item price'
+        min={1}
+        color='white'
+        value={isNaN(price) ? '' : price}
+      >
+        <NumberInputField />
+        <NumberInputStepper>
+          <NumberIncrementStepper />
+          <NumberDecrementStepper />
+        </NumberInputStepper>
+      </NumberInput>
+      <Input
+        marginBottom={2}
+        onChange={codeChange}
+        placeholder='Item code'
+        color='white'
+        value={code}
+      ></Input>
+      <>
+        <Button
+          mt={2}
+          mb={2}
+          variant='ghost'
+          onClick={() => document.getElementById('file').click()}
+          color='white'
+          _hover={{ bg: 'white', color: 'accent' }}
+        >
+          <Input
+            id='file'
+            type='file'
+            marginBottom={2}
+            placeholder='Image'
+            display='none'
+            onChange={imageChange}
           />
-        </Flex>
-      )}
-    </div>
+          Select Image
+        </Button>
+      </>
+      <Flex justifyContent='center'>
+        <IconButton
+          w='45%'
+          marginRight={2}
+          onClick={onItemSubmit}
+          aria-label='Submit'
+          icon={<CheckIcon />}
+          color='accent'
+          bg='background'
+          _hover={{ bg: 'white' }}
+        />
+        <IconButton
+          w='45%'
+          marginLeft={1}
+          onClick={onItemCancel}
+          aria-label='Cancel'
+          icon={<CloseIcon />}
+          color='accent'
+          bg='background'
+          _hover={{ bg: 'white' }}
+        />
+      </Flex>
+    </>
   )
 }

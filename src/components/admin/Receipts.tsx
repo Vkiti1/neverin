@@ -37,13 +37,13 @@ export const Receipts: FC = () => {
                     >
                       <GridItem>{item.name}</GridItem>
                       <GridItem>{item.quantity}</GridItem>
-                      <GridItem>{item.price.toFixed(2)}</GridItem>
+                      <GridItem>{item.price.toFixed(2)} kn</GridItem>
                     </Grid>
                   )
                 })}
               </GridItem>
-              <GridItem colSpan={3} colStart={2}>
-                Total: {receipt.total.toFixed(2)}
+              <GridItem colSpan={3} colStart={1}>
+                Total: {receipt.total.toFixed(2)} kn
               </GridItem>
             </Grid>
           )
