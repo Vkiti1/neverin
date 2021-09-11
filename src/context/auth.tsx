@@ -20,6 +20,7 @@ export const AuthProvider: FC = ({ children }) => {
       setUser(newUser.user)
       return newUser.user
     } catch (err) {
+      alert('Provided E-mail or password were incorrect, please try again')
       console.error(err)
     }
   }

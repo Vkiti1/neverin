@@ -21,8 +21,13 @@ export const AuthButton: FC<Props> = ({ email, password, variant }) => {
       router.push('/')
     } else {
       setIsLoading(true)
-      const user = await login(email, password)
-      router.push(`/shop/${user.uid}`)
+      try {
+        const user = await login(email, password)
+        router.push(`/shop/${user.uid}`)
+      } catch (err) {
+        setIsLoading(false)
+        console.error(err)
+      }
     }
   }
 
