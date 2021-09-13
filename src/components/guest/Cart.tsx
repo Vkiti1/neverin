@@ -78,7 +78,8 @@ export const Cart: FC<Props> = ({ closeDrawer }) => {
             .reduce((acc, curr) => {
               return acc + curr.price * curr.quantity
             }, 0)
-            .toFixed(2)}
+            .toFixed(2)}{' '}
+          kn
         </GridItem>
       </Grid>
       <Flex justifyContent='center' w='100%'>

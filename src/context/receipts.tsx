@@ -114,10 +114,7 @@ export const ReceiptsProvider: FC<Props> = ({ children, shopId, table }) => {
     } finally {
       setGuestOrder([])
       setNote('')
-      alert(
-        'Thank your for using our service. You will now be redirected to the home page.'
-      )
-      router.push('/')
+      alert('Thank your for using our service. Your order has been placed.')
     }
   }
 
