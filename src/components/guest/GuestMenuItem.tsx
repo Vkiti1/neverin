@@ -32,7 +32,8 @@ export const GuestMenuItem: FC<Props> = ({ itemPrice, imageUrl, itemName }) => {
   return (
     <>
       <Box
-        minHeight='200px'
+        minHeight='216px'
+        minWidth='154px'
         p={4}
         onClick={() => addGuestOrder(itemPrice, itemName)}
         boxShadow='lg'
