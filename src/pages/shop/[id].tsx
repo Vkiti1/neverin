@@ -4,7 +4,6 @@ import { Header } from 'components/admin/Header'
 import { Orders } from 'components/admin/Orders'
 import { ReceiptsProvider } from 'context/receipts'
 import { FShop, IShop } from 'types/index'
-import { Box } from '@chakra-ui/react'
 
 interface Props {
   shop: IShop

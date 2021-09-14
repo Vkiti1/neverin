@@ -8,7 +8,7 @@ export const Receipts: FC = () => {
   return (
     <Flex color='white' direction='column' fontSize='lg'>
       {receipts
-        .sort((a, b) => b.timestamp.getDate() - a.timestamp.getDate())
+        .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
         .map((receipt) => {
           return (
             <Grid

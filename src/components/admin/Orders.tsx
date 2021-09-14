@@ -28,7 +28,7 @@ export const Orders: FC = () => {
         </Heading>
         {orders
           .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
-          .map((order, i) => {
+          .map((order) => {
             return !order.isServed && <Order key={order.id} order={order} />
           })}
       </Flex>
@@ -46,7 +46,7 @@ export const Orders: FC = () => {
         </Heading>
         {orders
           .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
-          .map((order, i) => {
+          .map((order) => {
             return order.isServed && <Order key={order.id} order={order} />
           })}
       </Flex>

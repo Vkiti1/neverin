@@ -69,9 +69,6 @@ export const Header: FC<Props> = ({ shopName }) => {
           }
         })
       )
-
-    setNotify(false)
-
     return () => unsubscribe()
   }, [])
   return (

@@ -60,7 +60,6 @@ interface FShop {
   name: string
   numberOfTables: number
   oib: string
-  waiters: string[]
 }
 
 interface IShop {
@@ -69,7 +68,6 @@ interface IShop {
   name: string
   numberOfTables: number
   oib: string
-  waiters: string[]
 }
 
 export { Receipts, FReceipt, FItem, Category, Items, FShop, IShop, AuthContext }
