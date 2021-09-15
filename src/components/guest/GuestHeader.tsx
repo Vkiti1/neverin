@@ -44,7 +44,6 @@ export const GuestHeader: FC = () => {
 
   return (
     <Flex
-      backgroundColor='theme.colors.header'
       as='header'
       p={4}
       justifyContent='space-between'

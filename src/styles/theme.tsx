@@ -22,7 +22,6 @@ const theme = extendTheme({
   styles: {
     global: {
       'html, body': {
-        overflowX: 'hidden',
         backgroundColor: 'white',
         minHeight: '100vh',
       },
